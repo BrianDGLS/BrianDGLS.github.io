@@ -6,10 +6,19 @@
     <description>Recent content in Tags on BrianDGLS</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://briandgls.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>codepen</title>
+      <link>https://briandgls.github.io/tags/codepen/</link>
+      <pubDate>Mon, 15 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/codepen/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>js13k</title>

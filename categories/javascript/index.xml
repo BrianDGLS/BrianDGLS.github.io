@@ -6,10 +6,28 @@
     <description>Recent content in javascript on BrianDGLS</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://briandgls.github.io/categories/javascript/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Featured Codepen: Man on the moon</title>
+      <link>https://briandgls.github.io/2019/man-on-the-moon/</link>
+      <pubDate>Mon, 15 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2019/man-on-the-moon/</guid>
+      <description>&lt;p&gt;I haven&amp;rsquo;t been the most active on codepen recently. However an experiment with images and canvas has made it to the front page of the site.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Rainbow Space Unicorn</title>
+      <link>https://briandgls.github.io/2019/rainbow-space-unicorn/</link>
+      <pubDate>Mon, 25 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2019/rainbow-space-unicorn/</guid>
+      <description>&lt;p&gt;Myself and my girlfriend Emma teamed up recently to create a codepen. The result of which was this fantastic codepen, the Rainbow Space Unicorn.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Connection Defender - js13k</title>

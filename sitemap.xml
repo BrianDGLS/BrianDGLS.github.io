@@ -3,12 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://briandgls.github.io/2018/</loc>
-    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
+    <loc>https://briandgls.github.io/2019/</loc>
+    <lastmod>2019-07-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://briandgls.github.io/categories/</loc>
+    <lastmod>2019-07-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/tags/codepen/</loc>
+    <lastmod>2019-07-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/2019/man-on-the-moon/</loc>
+    <lastmod>2019-07-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/categories/javascript/</loc>
+    <lastmod>2019-07-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/tags/</loc>
+    <lastmod>2019-07-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/2019/rainbow-space-unicorn/</loc>
+    <lastmod>2019-02-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/2018/</loc>
     <lastmod>2018-08-30T00:00:00+00:00</lastmod>
   </url>
   
@@ -18,17 +48,7 @@
   </url>
   
   <url>
-    <loc>https://briandgls.github.io/categories/javascript/</loc>
-    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://briandgls.github.io/tags/js13k/</loc>
-    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://briandgls.github.io/tags/</loc>
     <lastmod>2018-08-30T00:00:00+00:00</lastmod>
   </url>
   
