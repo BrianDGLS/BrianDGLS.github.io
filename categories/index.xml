@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on BrianDGLS</title>
+    <link>https://briandgls.github.io/categories/</link>
+    <description>Recent content in Categories on BrianDGLS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 30 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://briandgls.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>javascript</title>
+      <link>https://briandgls.github.io/categories/javascript/</link>
+      <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/categories/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>typescript</title>
+      <link>https://briandgls.github.io/categories/typescript/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/categories/typescript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>misc</title>
+      <link>https://briandgls.github.io/categories/misc/</link>
+      <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/categories/misc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hacks</title>
+      <link>https://briandgls.github.io/categories/hacks/</link>
+      <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/categories/hacks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>angular</title>
+      <link>https://briandgls.github.io/categories/angular/</link>
+      <pubDate>Sun, 11 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/categories/angular/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vue</title>
+      <link>https://briandgls.github.io/categories/vue/</link>
+      <pubDate>Mon, 22 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/categories/vue/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>node</title>
+      <link>https://briandgls.github.io/categories/node/</link>
+      <pubDate>Tue, 04 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/categories/node/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elixir</title>
+      <link>https://briandgls.github.io/categories/elixir/</link>
+      <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/categories/elixir/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>me</title>
+      <link>https://briandgls.github.io/categories/me/</link>
+      <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/categories/me/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hacks on BrianDGLS</title>
+    <link>https://briandgls.github.io/categories/hacks/</link>
+    <description>Recent content in hacks on BrianDGLS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 13 Feb 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://briandgls.github.io/categories/hacks/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hacking The Github Activity Graph</title>
+      <link>https://briandgls.github.io/2018/github-activity-hack/</link>
+      <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/github-activity-hack/</guid>
+      <description>&lt;p&gt;This article covers how to hack the activity graph that appears on each github user&amp;rsquo;s profile using &lt;strong&gt;fake&lt;/strong&gt; commits.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2018s on BrianDGLS</title>
+    <link>https://briandgls.github.io/2018/</link>
+    <description>Recent content in 2018s on BrianDGLS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 30 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://briandgls.github.io/2018/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Connection Defender - js13k</title>
+      <link>https://briandgls.github.io/2018/js13k-2018-connection-defender/</link>
+      <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/js13k-2018-connection-defender/</guid>
+      <description>&lt;p&gt;I have entered &lt;a href=&#34;https://js13kgames.com/&#34;&gt;js13k&lt;/a&gt; this year. It is a javascript game competition in which the total game size must be less than 13kb. You can checkout my entry at the following url: &lt;a href=&#34;https://js13kgames.com/entries/connection-defender&#34;&gt;https://js13kgames.com/entries/connection-defender&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Introducing hypo-container</title>
+      <link>https://briandgls.github.io/2018/introducing-hypo-container/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/introducing-hypo-container/</guid>
+      <description>&lt;p&gt;A dependency injection container. Supports NodeJS and browser development.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>A &#39;Doggie Movie&#39;</title>
+      <link>https://briandgls.github.io/2018/a-doggie-movie/</link>
+      <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/a-doggie-movie/</guid>
+      <description>&lt;p&gt;In recent weeks online privacy has been a hot topic. I say this in relation to the &lt;a href=&#34;https://www.theguardian.com/news/2018/apr/10/cambridge-analytica-and-facebook-face-class-action-lawsuit&#34;&gt;Facebook/Cambridge Analytica&lt;/a&gt; fiasco.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hacking The Github Activity Graph</title>
+      <link>https://briandgls.github.io/2018/github-activity-hack/</link>
+      <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/github-activity-hack/</guid>
+      <description>&lt;p&gt;This article covers how to hack the activity graph that appears on each github user&amp;rsquo;s profile using &lt;strong&gt;fake&lt;/strong&gt; commits.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Using Property Accessors</title>
+      <link>https://briandgls.github.io/2018/using-property-accessors/</link>
+      <pubDate>Sun, 11 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/using-property-accessors/</guid>
+      <description>&lt;p&gt;Accessors, also known as getters/setters, provide a way of intercepting access to object properties. They are supported in &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_Accessors&#34;&gt;Javascript&lt;/a&gt; and &lt;a href=&#34;https://www.typescriptlang.org/docs/handbook/classes.html#accessors&#34;&gt;Typescript&lt;/a&gt; via the &lt;code&gt;get&lt;/code&gt; and &lt;code&gt;set&lt;/code&gt; keywords.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

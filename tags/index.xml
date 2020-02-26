@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on BrianDGLS</title>
+    <link>https://briandgls.github.io/tags/</link>
+    <description>Recent content in Tags on BrianDGLS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 30 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://briandgls.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>js13k</title>
+      <link>https://briandgls.github.io/tags/js13k/</link>
+      <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/js13k/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dependency injection</title>
+      <link>https://briandgls.github.io/tags/dependency-injection/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/dependency-injection/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>typescript</title>
+      <link>https://briandgls.github.io/tags/typescript/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/typescript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>privacy</title>
+      <link>https://briandgls.github.io/tags/privacy/</link>
+      <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/privacy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>github</title>
+      <link>https://briandgls.github.io/tags/github/</link>
+      <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/github/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hacks</title>
+      <link>https://briandgls.github.io/tags/hacks/</link>
+      <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/hacks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>javascript</title>
+      <link>https://briandgls.github.io/tags/javascript/</link>
+      <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>angular</title>
+      <link>https://briandgls.github.io/tags/angular/</link>
+      <pubDate>Sun, 11 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/angular/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vue</title>
+      <link>https://briandgls.github.io/tags/vue/</link>
+      <pubDate>Mon, 22 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/vue/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>express</title>
+      <link>https://briandgls.github.io/tags/express/</link>
+      <pubDate>Tue, 04 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/express/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>node</title>
+      <link>https://briandgls.github.io/tags/node/</link>
+      <pubDate>Tue, 04 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/node/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>browser</title>
+      <link>https://briandgls.github.io/tags/browser/</link>
+      <pubDate>Thu, 12 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/browser/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>canvas</title>
+      <link>https://briandgls.github.io/tags/canvas/</link>
+      <pubDate>Mon, 09 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/canvas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elixir</title>
+      <link>https://briandgls.github.io/tags/elixir/</link>
+      <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/elixir/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>functional</title>
+      <link>https://briandgls.github.io/tags/functional/</link>
+      <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/functional/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>patterns</title>
+      <link>https://briandgls.github.io/tags/patterns/</link>
+      <pubDate>Sun, 11 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/patterns/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ecmascript</title>
+      <link>https://briandgls.github.io/tags/ecmascript/</link>
+      <pubDate>Mon, 27 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/ecmascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fractals</title>
+      <link>https://briandgls.github.io/tags/fractals/</link>
+      <pubDate>Thu, 21 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/fractals/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>functional on BrianDGLS</title>
+    <link>https://briandgls.github.io/tags/functional/</link>
+    <description>Recent content in functional on BrianDGLS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Nov 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://briandgls.github.io/tags/functional/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Parsing a Panda With Elixir</title>
+      <link>https://briandgls.github.io/2016/parsing-a-panda-with-elixir/</link>
+      <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/parsing-a-panda-with-elixir/</guid>
+      <description>&lt;p&gt;I attended the first Edinburgh Elixir meet-up on Monday.
+It was a great social event with around ~20 attendees.
+Most of which were first time Elixir users.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>The Crockford Invocation</title>
+      <link>https://briandgls.github.io/2016/the-crockford-invocation/</link>
+      <pubDate>Sun, 11 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/the-crockford-invocation/</guid>
+      <description>&lt;p&gt;In this post we are going to look at some common invocation patterns used in javascript. We will then examine how they can be improved using ES6 syntax.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

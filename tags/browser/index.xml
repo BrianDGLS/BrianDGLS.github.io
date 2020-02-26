@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>browser on BrianDGLS</title>
+    <link>https://briandgls.github.io/tags/browser/</link>
+    <description>Recent content in browser on BrianDGLS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 12 Jan 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://briandgls.github.io/tags/browser/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ES6 DOM Scripting Tricks</title>
+      <link>https://briandgls.github.io/2017/es6-dom-scripting-tricks/</link>
+      <pubDate>Thu, 12 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2017/es6-dom-scripting-tricks/</guid>
+      <description>&lt;p&gt;In this post we are going to make use of some ES6 features in regards to DOM scripting.
+Features like destructuring, the spread operator, and the &lt;code&gt;for..of&lt;/code&gt; loop lend themselves
+well to DOM scripting.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Canvas Fireworks Using Javascript</title>
+      <link>https://briandgls.github.io/2017/canvas-fireworks-using-js/</link>
+      <pubDate>Mon, 09 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2017/canvas-fireworks-using-js/</guid>
+      <description>&lt;p&gt;This post is a tutorial explaining how to code a fireworks display using the canvas element.
+No external libraries or frameworks will be necessary.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

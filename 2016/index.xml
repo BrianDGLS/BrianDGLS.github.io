@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2016s on BrianDGLS</title>
+    <link>https://briandgls.github.io/2016/</link>
+    <description>Recent content in 2016s on BrianDGLS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 16 Nov 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://briandgls.github.io/2016/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using Typescript with Node</title>
+      <link>https://briandgls.github.io/2016/using-typescript-with-node/</link>
+      <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/using-typescript-with-node/</guid>
+      <description>&lt;p&gt;In this article we will set up an &lt;a href=&#34;http://expressjs.com/&#34;&gt;Express&lt;/a&gt; application using &lt;a href=&#34;https://www.typescriptlang.org/&#34;&gt;Typescript&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Parsing a Panda With Elixir</title>
+      <link>https://briandgls.github.io/2016/parsing-a-panda-with-elixir/</link>
+      <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/parsing-a-panda-with-elixir/</guid>
+      <description>&lt;p&gt;I attended the first Edinburgh Elixir meet-up on Monday.
+It was a great social event with around ~20 attendees.
+Most of which were first time Elixir users.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>The Crockford Invocation</title>
+      <link>https://briandgls.github.io/2016/the-crockford-invocation/</link>
+      <pubDate>Sun, 11 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/the-crockford-invocation/</guid>
+      <description>&lt;p&gt;In this post we are going to look at some common invocation patterns used in javascript. We will then examine how they can be improved using ES6 syntax.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Fire, Snow, and Rain Canvas Effects</title>
+      <link>https://briandgls.github.io/2016/snes-style-canvas-effects/</link>
+      <pubDate>Mon, 15 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/snes-style-canvas-effects/</guid>
+      <description>&lt;p&gt;All three of the demos below are written in Typescript and make use of the browser&amp;rsquo;s canvas element.
+No external libraries are used and each example is made up of around 100 lines of code.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Whats New in ES2016 (ES7)</title>
+      <link>https://briandgls.github.io/2016/whats-new-in-es2017/</link>
+      <pubDate>Mon, 27 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/whats-new-in-es2017/</guid>
+      <description>&lt;p&gt;ES6 introduced a huge number of improvements to Javascript.
+It was the first major update to the language since 2009 and It was due to this that so many features were added.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Creating Fractals</title>
+      <link>https://briandgls.github.io/2016/creating-fractals/</link>
+      <pubDate>Thu, 21 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/creating-fractals/</guid>
+      <description>&lt;p&gt;Fractals show the beauty of numbers. There are many famous fractals, which are often named after European mathematicians. You may have heard of Sierpinski&amp;rsquo;s Triangle, the Mandelbrot Set, and the Koch Curve. These are all fractal patterns.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

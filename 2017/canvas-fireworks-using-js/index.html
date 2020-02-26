@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang=en><meta charset=utf-8><meta name=theme-color content=#000><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=description content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas."><link rel=manifest href=/manifest.webmanifest><link rel=mask-icon href=/favicon/safari-pinned-tab.svg color=#5bbad5><link rel=apple-touch-icon sizes=180x180 href=/favicon/apple-touch-icon.png><link rel=icon type=image/png href=/favicon/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/favicon/favicon-16x16.png sizes=16x16><link rel=canonical href=https://briandgls.github.io/2017/canvas-fireworks-using-js/ ><title>BrianDGLS</title><meta name=description content="&lt;p&gt;This post is a tutorial explaining how to code a fireworks display using the canvas element.
+No external libraries or frameworks will be necessary.&lt;/p&gt;"><meta property=og:locale content=en_GB><meta property=og:type content=article><meta property=og:url content=https://briandgls.github.io/2017/canvas-fireworks-using-js/ ><meta property=og:site_name content=BrianDGLS><meta property=og:title content="Canvas Fireworks Using Javascript - BrianDGLS"><meta property=og:description content="&lt;p&gt;This post is a tutorial explaining how to code a fireworks display using the canvas element.
+No external libraries or frameworks will be necessary.&lt;/p&gt;"><style>/****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-aside { margin-top: 1.2rem; } .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */</style><div class=hc-top-line></div><div class="hc-layout hc-layout--page"><section class=hc-aside><div class=hc-aside__fixed><div class=hc-user-card id=js-github-user-card><img class=hc-user-card__img alt="picture of me, Brian Douglas" data-src=/images/me.jpeg><div class=hc-user-card__details><h2 class=hc-user-card__name>Brian Douglas</h2><h4 class=hc-user-card__github-username><a href=https://github.com/BrianDGLS>@BrianDGLS</a></h4><p class=hc-user-card__bio>An Irish software engineer. Focused on Javascript and the web platform.<div class=hc-user-card__links-wrap><a class=hc-user-card__link href=https://github.com/BrianDGLS/ >Github</a> <a class=hc-user-card__link href=https://codepen.io/BrianDGLS/ >Codepen</a></div></div></div></div></section><section class=hc-content><article id=article-c423da55f63dc006636014158bf19851 class=hc-article><header class=hc-article-header><time class=hc-article-header__date datetime="Mon, Jan 9, 2017">Jan 9, 2017</time><h1 class=hc-article-header__title>Canvas Fireworks Using Javascript</h1></header><div class=hc-article-body><p>This post is a tutorial explaining how to code a fireworks display using the canvas element. No external libraries or frameworks will be necessary.<p>At the end of this tutorial you will be able to code the example below.<p><p>Star<h2 id=boilerplate-and-utilities>Boilerplate and Utilities</h2><p>Firstly lets create the files needed for this project. Make a directory called <code>fireworks_display</code> and add the following two files inside it <code>index.html</code> and <code>fireworks.js</code>. If you are on mac osx you can create these with the following commands.<pre><code>mkdir fireworks_display;
+cd fireworks_display;
+touch index.html fireworks.js;
+</code></pre><p>Now in the <code>index.html</code> file add the following.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=color:#75715e>&lt;!DOCTYPE html&gt;</span>
+&lt;<span style=color:#f92672>html</span>&gt;
+  &lt;<span style=color:#f92672>head</span>&gt;
+    &lt;<span style=color:#f92672>title</span>&gt;FireWorks Display&lt;/<span style=color:#f92672>title</span>&gt;
+    &lt;<span style=color:#f92672>style</span>&gt;
+      <span style=color:#f92672>html</span><span style=color:#f92672>,</span> <span style=color:#f92672>body</span> {
+        <span style=color:#66d9ef>height</span>: <span style=color:#ae81ff>100</span><span style=color:#66d9ef>%</span>;
+        <span style=color:#66d9ef>width</span>: <span style=color:#ae81ff>100</span><span style=color:#66d9ef>%</span>;
+      }
+
+      <span style=color:#f92672>body</span> {
+        <span style=color:#66d9ef>margin</span>: <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>auto</span>;
+        <span style=color:#66d9ef>text-align</span>: <span style=color:#66d9ef>center</span>;
+      }
+    &lt;/<span style=color:#f92672>style</span>&gt;
+  &lt;/<span style=color:#f92672>head</span>&gt;
+  &lt;<span style=color:#f92672>body</span>&gt;
+    &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;user-input&#34;</span>&gt;
+      &lt;<span style=color:#f92672>label</span> <span style=color:#a6e22e>for</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;fireWorkCount&#34;</span>&gt;Number of FireWorks&lt;/<span style=color:#f92672>label</span>&gt;
+
+      &lt;<span style=color:#f92672>select</span> <span style=color:#a6e22e>name</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;fireWorkCount&#34;</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;fireWorkCount&#34;</span>&gt;
+        &lt;<span style=color:#f92672>option</span> <span style=color:#a6e22e>value</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;1&#34;</span> &gt;1&lt;/<span style=color:#f92672>option</span>&gt;
+        &lt;<span style=color:#f92672>option</span> <span style=color:#a6e22e>value</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;5&#34;</span> &gt;5&lt;/<span style=color:#f92672>option</span>&gt;
+        &lt;<span style=color:#f92672>option</span> <span style=color:#a6e22e>value</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;10&#34;</span> <span style=color:#a6e22e>selected</span>&gt;10&lt;/<span style=color:#f92672>option</span>&gt;
+        &lt;<span style=color:#f92672>option</span> <span style=color:#a6e22e>value</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;20&#34;</span>&gt;20&lt;/<span style=color:#f92672>option</span>&gt;
+        &lt;<span style=color:#f92672>option</span> <span style=color:#a6e22e>value</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;30&#34;</span>&gt;30&lt;/<span style=color:#f92672>option</span>&gt;
+        &lt;<span style=color:#f92672>option</span> <span style=color:#a6e22e>value</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;40&#34;</span>&gt;40&lt;/<span style=color:#f92672>option</span>&gt;
+        &lt;<span style=color:#f92672>option</span> <span style=color:#a6e22e>value</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;50&#34;</span>&gt;50&lt;/<span style=color:#f92672>option</span>&gt;
+      &lt;/<span style=color:#f92672>select</span>&gt;
+    &lt;/<span style=color:#f92672>div</span>&gt;
+    &lt;<span style=color:#f92672>script</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;fireworks.js&#34;</span>&gt;&lt;/<span style=color:#f92672>script</span>&gt;
+
+  &lt;/<span style=color:#f92672>body</span>&gt;
+&lt;/<span style=color:#f92672>html</span>&gt;
+</code></pre></div><p>Turning to the <code>fireworks.js</code> file we will setup a canvas element and some utility functions. Paste the following code into <code>fireworks.js</code>.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>c</span> <span style=color:#f92672>=</span> document.<span style=color:#a6e22e>createElement</span>(<span style=color:#e6db74>&#39;canvas&#39;</span>)
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>$</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>getContext</span>(<span style=color:#e6db74>&#39;2d&#39;</span>)
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>h</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>height</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>420</span>
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>w</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>width</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>h</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>1.618</span>
+
+document.<span style=color:#a6e22e>body</span>.<span style=color:#a6e22e>appendChild</span>(<span style=color:#a6e22e>c</span>)
+
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>GRAVITY</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.04</span>
+
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>color</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>h</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>s</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>100</span>, <span style=color:#a6e22e>l</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>100</span>, <span style=color:#a6e22e>a</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>) =&gt; <span style=color:#e6db74>`hsla(</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>h</span><span style=color:#e6db74>}</span><span style=color:#e6db74>, </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>s</span><span style=color:#e6db74>}</span><span style=color:#e6db74>%, </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>l</span><span style=color:#e6db74>}</span><span style=color:#e6db74>%, </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>a</span><span style=color:#e6db74>}</span><span style=color:#e6db74>)`</span>
+
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>randomFloat</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>min</span>, <span style=color:#a6e22e>max</span>) =&gt; Math.<span style=color:#a6e22e>random</span>() <span style=color:#f92672>*</span> (<span style=color:#a6e22e>max</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>min</span>) <span style=color:#f92672>+</span> <span style=color:#a6e22e>min</span>
+
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>randomNumber</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>min</span>, <span style=color:#a6e22e>max</span>) =&gt; Math.<span style=color:#a6e22e>floor</span>(Math.<span style=color:#a6e22e>random</span>() <span style=color:#f92672>*</span> (<span style=color:#a6e22e>max</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>min</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>)) <span style=color:#f92672>+</span> <span style=color:#a6e22e>min</span>
+
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>cleanFrame</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>opacity</span>) =&gt; {
+  <span style=color:#a6e22e>$</span>.<span style=color:#a6e22e>globalCompositeOperation</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;source-over&#39;</span>
+  <span style=color:#a6e22e>$</span>.<span style=color:#a6e22e>fillStyle</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>`rgba(0,0,0,</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>opacity</span><span style=color:#e6db74>}</span><span style=color:#e6db74>)`</span>
+  <span style=color:#a6e22e>$</span>.<span style=color:#a6e22e>fillRect</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>w</span>, <span style=color:#a6e22e>h</span>)
+  <span style=color:#a6e22e>$</span>.<span style=color:#a6e22e>globalCompositeOperation</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;lighter&#39;</span>
+}
+</code></pre></div><p>In the above code we create the canvas element and append it to the DOM&rsquo;s body tag. The <code>$</code> variable refers to the canvas&rsquo;s context which we will use to render our fireworks.<p>The four utility functions are as follows.<ul><li><strong>color</strong>: Returns a random color in the form of a <code>hsla</code> string<li><strong>randomNumber</strong>: Returns a random number<li><strong>randomFloat</strong>: Returns a random float<li><strong>cleanFrame</strong>: This will draw a black square on the canvas screen allowing for the next frame to render. Lowering the opacity will create a nice <em>trail</em> effect for our fireworks.</ul><p>With these in place, the next section will cover the <code>FireWork</code> classes.<h2 id=creating-the-fireworks>Creating the FireWorks</h2><p>Our fireworks consist of three different classes. There will be two variants of firework, <code>ExplodingFireWork</code> and <code>FadingFireWork</code>. These will both extend the main <code>FireWork</code> class.<p>If you have used canvas before you may have created particles. Our main <code>FireWork</code> class is essentially a particle. It has <code>x</code> and <code>y</code> co-ordinates which update based on it&rsquo;s velocity, <code>vy</code> and <code>vx</code>. It also contains a <code>render</code> method which will allow it to render on the canvas.<p>Add the following to <code>fireworks.js</code>.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>FireWork</span> {
+  <span style=color:#a6e22e>constructor</span>({
+    <span style=color:#a6e22e>x</span>,
+    <span style=color:#a6e22e>y</span>,
+    <span style=color:#a6e22e>vx</span>,
+    <span style=color:#a6e22e>vy</span>,
+    <span style=color:#a6e22e>size</span>,
+    <span style=color:#a6e22e>hue</span>
+  }) {
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>setPosition</span>(<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>y</span>)
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>setVelocity</span>(<span style=color:#a6e22e>vx</span>, <span style=color:#a6e22e>vy</span>)
+
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>size</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>size</span>
+
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>hue</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>hue</span> <span style=color:#f92672>||</span> <span style=color:#ae81ff>0</span>
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>alpha</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+  }
+
+  <span style=color:#a6e22e>setPosition</span>(<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>y</span>) {
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>x</span>
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>y</span>
+  }
+
+  <span style=color:#a6e22e>setVelocity</span>(<span style=color:#a6e22e>vx</span>, <span style=color:#a6e22e>vy</span>) {
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vx</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>vx</span>
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vy</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>vy</span>
+  }
+
+  <span style=color:#a6e22e>render</span>() {
+    <span style=color:#a6e22e>$</span>.<span style=color:#a6e22e>fillStyle</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>color</span>(<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>hue</span>, <span style=color:#ae81ff>50</span>, <span style=color:#ae81ff>50</span>, <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>alpha</span>)
+    <span style=color:#a6e22e>$</span>.<span style=color:#a6e22e>beginPath</span>()
+    <span style=color:#a6e22e>$</span>.<span style=color:#a6e22e>arc</span>(<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>x</span>, <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>y</span>, <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>size</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>2</span> <span style=color:#f92672>*</span> Math.<span style=color:#a6e22e>PI</span>)
+    <span style=color:#a6e22e>$</span>.<span style=color:#a6e22e>fill</span>()
+  }
+}
+</code></pre></div><p>The <code>ExplodingFireWork</code> and <code>FadingFireWork</code> classes are going to extend the above class. This will allow for better code reuse. It also means that we will have to create an <code>update</code> method for our inheriting classes. The <code>update</code> method will be unique to each as both will have slightly different animations.<p>Let&rsquo;s add the <code>ExplodingFireWork</code> to <code>fireworks.js</code>.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ExplodingFireWork</span> <span style=color:#66d9ef>extends</span> <span style=color:#a6e22e>FireWork</span> {
+  <span style=color:#a6e22e>constructor</span>(<span style=color:#a6e22e>options</span>) {
+    <span style=color:#66d9ef>super</span>(<span style=color:#a6e22e>options</span>)
+
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>exploded</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>explodePoint</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>randomNumber</span>(<span style=color:#ae81ff>100</span>, <span style=color:#a6e22e>h</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>)
+  }
+
+  <span style=color:#a6e22e>update</span>() {
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>x</span> <span style=color:#f92672>+=</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vx</span>
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>+=</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vy</span>
+
+    <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>h</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>) <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vy</span> <span style=color:#f92672>+=</span> <span style=color:#a6e22e>GRAVITY</span>
+
+    <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span><span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>exploded</span>) {
+      <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vy</span> <span style=color:#f92672>&gt;=</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>||</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>&lt;</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>explodePoint</span>) {
+        <span style=color:#a6e22e>explode</span>(<span style=color:#66d9ef>this</span>)
+
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>alpha</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>exploded</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>
+      }
+    }
+  }
+}
+</code></pre></div><p>The <code>super</code> function inside the constructor allows us to pass the <code>options</code> to the constructor of the class thats extended. This sets the <code>x</code>, <code>y</code>, <code>vx</code>, <code>vy</code>, <code>size</code> and <code>hue</code> of the firework. The <code>ExplodingFireWork</code> has two new attributes <code>exploded</code> and <code>explodePoint</code>. The <code>explodePoint</code> is a random number more than halfway up the screen. Once the <code>y</code> value matches this point the firework will explode. The exploded boolean allows us to filter out fireworks that have exploded.<p>Now to the <code>FadingFireWork</code>.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>FadingFireWork</span> <span style=color:#66d9ef>extends</span> <span style=color:#a6e22e>FireWork</span> {
+  <span style=color:#a6e22e>constructor</span>(<span style=color:#a6e22e>options</span>) {
+    <span style=color:#66d9ef>super</span>(<span style=color:#a6e22e>options</span>)
+  }
+
+  <span style=color:#a6e22e>update</span>() {
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>x</span> <span style=color:#f92672>+=</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vx</span>
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>+=</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vy</span>
+
+    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vy</span> <span style=color:#f92672>+=</span> <span style=color:#a6e22e>GRAVITY</span>
+
+    <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>alpha</span>) {
+      <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>alpha</span> <span style=color:#f92672>-=</span> <span style=color:#ae81ff>0.03</span>
+    }
+  }
+}
+</code></pre></div><p>The <code>FadingFireWork</code> acts as the ember of the <code>ExplodingFireWork</code>. It&rsquo;s <code>alpha</code> property decreases each frame causing a fade animation.<h2 id=creating-the-firework-display>Creating the FireWork Display</h2><p>To manage our fireworks we will create a class named <code>FireWorkDisplay</code>. This class will be in charge of adding, removing, updating, and rendering our fireworks. It will act as the <code>STAGE</code> of our animation. As well as this we will add two new helper functions <code>igniteNewFireWork</code> and <code>explode</code>.<ul><li><strong>igniteNewFireWork</strong>: Adds an <code>ExplodingFireWork</code> to the <code>FireWorkDisplay</code><li><strong>explode</strong>: Creates the exploding animation of the <code>ExplodingFireWork</code> by adding 10 <code>FadingFireWork</code> objects at certain points of the exploding firework&rsquo;s radius. It uses <code>Math.sin</code> and <code>Math.cos</code> to send these fireworks in a circular motion.</ul><p>Add these by pasting the following code into <code>fireworks.js</code>.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>FireWorkDisplay</span> {
+    <span style=color:#a6e22e>constructor</span>(<span style=color:#a6e22e>limit</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span>) {
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>limit</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>limit</span>
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>fireworks</span> <span style=color:#f92672>=</span> []
+    }
+
+    <span style=color:#a6e22e>add</span>(<span style=color:#a6e22e>firework</span>) {
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>fireworks</span>.<span style=color:#a6e22e>push</span>(<span style=color:#a6e22e>firework</span>)
+    }
+
+    <span style=color:#a6e22e>remove</span>(<span style=color:#a6e22e>firework</span>) {
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>fireworks</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>fireworks</span>.<span style=color:#a6e22e>filter</span>(<span style=color:#a6e22e>x</span> =&gt; <span style=color:#a6e22e>x</span> <span style=color:#f92672>!==</span> <span style=color:#a6e22e>firework</span>)
+    }
+
+    <span style=color:#a6e22e>render</span>() {
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>fireworks</span>.<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>x</span> =&gt; <span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>render</span>())
+    }
+
+    <span style=color:#a6e22e>update</span>() {
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>fireworks</span>.<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>x</span> =&gt; {
+            <span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>update</span>()
+            <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>alpha</span> <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>0</span>) <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>remove</span>(<span style=color:#a6e22e>x</span>)
+            <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>exploded</span>) <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>remove</span>(<span style=color:#a6e22e>x</span>)
+        })
+    }
+}
+
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>STAGE</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>FireWorkDisplay</span>(<span style=color:#ae81ff>10</span>)
+
+<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>igniteNewFireWork</span>() {
+    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>hues</span> <span style=color:#f92672>=</span> [
+        <span style=color:#a6e22e>randomNumber</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>20</span>),
+        <span style=color:#a6e22e>randomNumber</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>30</span>),
+        <span style=color:#a6e22e>randomNumber</span>(<span style=color:#ae81ff>60</span>, <span style=color:#ae81ff>80</span>),
+        <span style=color:#a6e22e>randomNumber</span>(<span style=color:#ae81ff>250</span>, <span style=color:#ae81ff>280</span>)
+    ]
+
+    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>firework</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>ExplodingFireWork</span>({
+        <span style=color:#a6e22e>x</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>randomNumber</span>(<span style=color:#a6e22e>w</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>100</span>, <span style=color:#a6e22e>w</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>100</span>),
+        <span style=color:#a6e22e>y</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>h</span>,
+        <span style=color:#a6e22e>vx</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>randomFloat</span>(<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>),
+        <span style=color:#a6e22e>vy</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>randomFloat</span>(<span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>4</span>) <span style=color:#f92672>*</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>,
+        <span style=color:#a6e22e>size</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>randomNumber</span>(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>3</span>),
+        <span style=color:#a6e22e>hue</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>hues</span>[<span style=color:#a6e22e>randomNumber</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>hues</span>.<span style=color:#a6e22e>length</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>)]
+    })
+
+    <span style=color:#a6e22e>STAGE</span>.<span style=color:#a6e22e>add</span>(<span style=color:#a6e22e>firework</span>)
+}
+
+<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>explode</span>(<span style=color:#a6e22e>firework</span>) {
+    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>embers</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span>
+    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>radius</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>4</span>
+
+    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>embers</span>; <span style=color:#f92672>++</span><span style=color:#a6e22e>i</span>) {
+        <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>ember</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>FadingFireWork</span>({
+            <span style=color:#a6e22e>x</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>firework</span>.<span style=color:#a6e22e>x</span>,
+            <span style=color:#a6e22e>y</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>firework</span>.<span style=color:#a6e22e>y</span>,
+            <span style=color:#a6e22e>vx</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>radius</span> <span style=color:#f92672>*</span> Math.<span style=color:#a6e22e>cos</span>(<span style=color:#ae81ff>2</span> <span style=color:#f92672>*</span> Math.<span style=color:#a6e22e>PI</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>embers</span>),
+            <span style=color:#a6e22e>vy</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>radius</span> <span style=color:#f92672>*</span> Math.<span style=color:#a6e22e>sin</span>(<span style=color:#ae81ff>2</span> <span style=color:#f92672>*</span> Math.<span style=color:#a6e22e>PI</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>embers</span>),
+            <span style=color:#a6e22e>size</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>firework</span>.<span style=color:#a6e22e>size</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>,
+            <span style=color:#a6e22e>hue</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>firework</span>.<span style=color:#a6e22e>hue</span>
+        })
+
+        <span style=color:#a6e22e>STAGE</span>.<span style=color:#a6e22e>add</span>(<span style=color:#a6e22e>ember</span>)
+    }
+}
+</code></pre></div><p>The <code>STAGE</code> constant in the above codes acts as the manager of our fireworks display. You can think of each firework as being an actor on the <code>STAGE</code>.<h2 id=render-the-fireworks-display>Render the FireWorks Display</h2><p>Here comes the exciting part, seeing the fireworks display on canvas.<p>Paste the following code into <code>fireworks.js</code>.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+    <span style=color:#a6e22e>requestAnimationFrame</span>(<span style=color:#a6e22e>draw</span>)
+    <span style=color:#a6e22e>cleanFrame</span>(<span style=color:#ae81ff>0.1</span>)
+
+    <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>STAGE</span>.<span style=color:#a6e22e>fireworks</span>.<span style=color:#a6e22e>filter</span>(<span style=color:#a6e22e>x</span> =&gt; <span style=color:#f92672>!</span><span style=color:#a6e22e>x</span>.<span style=color:#a6e22e>exploded</span>).<span style=color:#a6e22e>length</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>STAGE</span>.<span style=color:#a6e22e>limit</span>) {
+        <span style=color:#a6e22e>igniteNewFireWork</span>()
+    }
+
+    <span style=color:#a6e22e>STAGE</span>.<span style=color:#a6e22e>update</span>()
+    <span style=color:#a6e22e>STAGE</span>.<span style=color:#a6e22e>render</span>()
+}
+
+<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>startFireWorkDisplay</span>() {
+    <span style=color:#a6e22e>$</span>.<span style=color:#a6e22e>fillStyle</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;#000&#39;</span>
+    <span style=color:#a6e22e>$</span>.<span style=color:#a6e22e>fillRect</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>w</span>, <span style=color:#a6e22e>h</span>)
+
+    <span style=color:#75715e>// Add user input
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>input</span> <span style=color:#f92672>=</span> document.<span style=color:#a6e22e>getElementById</span>(<span style=color:#e6db74>&#39;fireWorkCount&#39;</span>)
+
+    <span style=color:#a6e22e>input</span>.<span style=color:#a6e22e>onchange</span> <span style=color:#f92672>=</span> () =&gt; {
+        <span style=color:#a6e22e>STAGE</span>.<span style=color:#a6e22e>limit</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>input</span>.<span style=color:#a6e22e>options</span>[<span style=color:#a6e22e>input</span>.<span style=color:#a6e22e>selectedIndex</span>].<span style=color:#a6e22e>value</span>
+    }
+
+    <span style=color:#a6e22e>draw</span>()
+}
+
+<span style=color:#a6e22e>startFireWorkDisplay</span>()
+</code></pre></div><p>The <code>draw</code> function above executes 60 times each second and is the function that renders each frame of the animation. It checks to see if the number of unexploded fireworks is less than the max number in the firework display. If this is true it will call <code>igniteNewFireWork</code> adding another <code>ExplodingFireWork</code> to the display.<p>The <code>startFireWorkDisplay</code> function starts the animation by calling <code>draw</code>. It also adds an event listener to our firework count selector. This allows the user to control the number of fireworks in the display.<h2 id=summary>Summary</h2><p>You should now have an animation that matches the demo at the start of this post.<p>In this tutorial there is a lot that has been learned. It gives an example of using inheritance in javascript to extend a base class. It also gives a strong use case for it. Which is to allow for more concise and reusable code.<p>You will also have learned how to structure a canvas animation, using a <code>STAGE</code> to add and remove actors.<p>As well as this experience has been gained using the canvas api. For example the <code>cleanFrame</code> function that is used to create the trailing effect of the firework is a neat little trick to add to your arsenal.<p>I hope you have found this useful. If you haven&rsquo;t or if you have found any errors then please raise them as a github issue at the link below.<p><em>The above code is held on github and editable on codepen at the links below</em><p><a href=https://github.com/BrianDGLS/canvas-fireworks>https://github.com/BrianDGLS/canvas-fireworks</a><p><a href=https://codepen.io/BrianDGLS/pen/wgKKKJ>https://codepen.io/BrianDGLS/pen/wgKKKJ</a></div></article><footer class=hc-footer><nav class=hc-footer__nav><a href=https://briandgls.github.io//about class=hc-footer__nav-link>About Me</a> <a href=https://github.com/BrianDGLS class=hc-footer__nav-link>Github</a> <a href=https://codepen.io/BrianDGLS/ class=hc-footer__nav-link>Codepen</a></nav><p class=hc-footer__brand><span class=hc-footer__year></span> / <a href=https://briandgls.github.io/ class=hc-footer__brand-link>BrianDGLS</a></p><script>const $year = document.querySelector('.hc-footer__year')
+        $year.textContent = new Date().getFullYear()</script></footer></section></div><a href=# title="back to top" rel=nofollow tabindex=0></a><link rel=stylesheet href=/prism/prism.css async defer><script src=/prism/prism.js async defer></script><script>if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js');
+      }, {once: true});
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const images = document.querySelectorAll('img[data-src]');
+      if(images.length) {
+        for(let img of images) {
+          img.setAttribute('src', img.getAttribute('data-src'));
+          img.onload = () => img.removeAttribute('data-src');
+        }
+      }
+    }, {once: true});</script>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>BrianDGLS</title>
+    <link>https://briandgls.github.io/</link>
+    <description>Recent content on BrianDGLS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 04 Jan 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://briandgls.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Connection Defender - js13k</title>
+      <link>https://briandgls.github.io/2018/js13k-2018-connection-defender/</link>
+      <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/js13k-2018-connection-defender/</guid>
+      <description>&lt;p&gt;I have entered &lt;a href=&#34;https://js13kgames.com/&#34;&gt;js13k&lt;/a&gt; this year. It is a javascript game competition in which the total game size must be less than 13kb. You can checkout my entry at the following url: &lt;a href=&#34;https://js13kgames.com/entries/connection-defender&#34;&gt;https://js13kgames.com/entries/connection-defender&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Introducing hypo-container</title>
+      <link>https://briandgls.github.io/2018/introducing-hypo-container/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/introducing-hypo-container/</guid>
+      <description>&lt;p&gt;A dependency injection container. Supports NodeJS and browser development.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>A &#39;Doggie Movie&#39;</title>
+      <link>https://briandgls.github.io/2018/a-doggie-movie/</link>
+      <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/a-doggie-movie/</guid>
+      <description>&lt;p&gt;In recent weeks online privacy has been a hot topic. I say this in relation to the &lt;a href=&#34;https://www.theguardian.com/news/2018/apr/10/cambridge-analytica-and-facebook-face-class-action-lawsuit&#34;&gt;Facebook/Cambridge Analytica&lt;/a&gt; fiasco.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hacking The Github Activity Graph</title>
+      <link>https://briandgls.github.io/2018/github-activity-hack/</link>
+      <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/github-activity-hack/</guid>
+      <description>&lt;p&gt;This article covers how to hack the activity graph that appears on each github user&amp;rsquo;s profile using &lt;strong&gt;fake&lt;/strong&gt; commits.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Using Property Accessors</title>
+      <link>https://briandgls.github.io/2018/using-property-accessors/</link>
+      <pubDate>Sun, 11 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/using-property-accessors/</guid>
+      <description>&lt;p&gt;Accessors, also known as getters/setters, provide a way of intercepting access to object properties. They are supported in &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_Accessors&#34;&gt;Javascript&lt;/a&gt; and &lt;a href=&#34;https://www.typescriptlang.org/docs/handbook/classes.html#accessors&#34;&gt;Typescript&lt;/a&gt; via the &lt;code&gt;get&lt;/code&gt; and &lt;code&gt;set&lt;/code&gt; keywords.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Large Number Addition in Javascript</title>
+      <link>https://briandgls.github.io/2017/large-number-addition/</link>
+      <pubDate>Fri, 09 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2017/large-number-addition/</guid>
+      <description>&lt;p&gt;Javascript supports at most 53 bit integers.
+What this means is that integers larger than 53 bits lose precision.
+This article will explain how to handle addition with integers larger than 53 bits in javascript.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Using Vue Class Components</title>
+      <link>https://briandgls.github.io/2017/using-vue-class-components/</link>
+      <pubDate>Mon, 22 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2017/using-vue-class-components/</guid>
+      <description>&lt;p&gt;The &lt;a href=&#34;https://github.com/vuejs/vue-class-component&#34;&gt;Vue Class Component&lt;/a&gt; module provides a component decorator which can inject properties into &lt;a href=&#34;https://github.com/vuejs/vue&#34;&gt;Vue&lt;/a&gt; components.
+This allows developers to create components which make use of javascript&amp;rsquo;s natural language constructs.
+The more native syntax helps with readability and developer understanding.
+Which ultimately contributes to maintainability.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Http to Https Redirect in Node</title>
+      <link>https://briandgls.github.io/2017/http-to-https-redirect-node/</link>
+      <pubDate>Tue, 04 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2017/http-to-https-redirect-node/</guid>
+      <description>&lt;p&gt;Node comes with https support out of the box.
+This article will explain how to redirect your http traffic to https.
+&lt;a href=&#34;https://expressjs.com/en/api.html&#34;&gt;Express 4&lt;/a&gt; will be used to demo this.
+The code examples will be written in &lt;a href=&#34;https://www.typescriptlang.org/&#34;&gt;Typescript&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ES6 DOM Scripting Tricks</title>
+      <link>https://briandgls.github.io/2017/es6-dom-scripting-tricks/</link>
+      <pubDate>Thu, 12 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2017/es6-dom-scripting-tricks/</guid>
+      <description>&lt;p&gt;In this post we are going to make use of some ES6 features in regards to DOM scripting.
+Features like destructuring, the spread operator, and the &lt;code&gt;for..of&lt;/code&gt; loop lend themselves
+well to DOM scripting.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Canvas Fireworks Using Javascript</title>
+      <link>https://briandgls.github.io/2017/canvas-fireworks-using-js/</link>
+      <pubDate>Mon, 09 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2017/canvas-fireworks-using-js/</guid>
+      <description>&lt;p&gt;This post is a tutorial explaining how to code a fireworks display using the canvas element.
+No external libraries or frameworks will be necessary.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Using Typescript with Node</title>
+      <link>https://briandgls.github.io/2016/using-typescript-with-node/</link>
+      <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/using-typescript-with-node/</guid>
+      <description>&lt;p&gt;In this article we will set up an &lt;a href=&#34;http://expressjs.com/&#34;&gt;Express&lt;/a&gt; application using &lt;a href=&#34;https://www.typescriptlang.org/&#34;&gt;Typescript&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Parsing a Panda With Elixir</title>
+      <link>https://briandgls.github.io/2016/parsing-a-panda-with-elixir/</link>
+      <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/parsing-a-panda-with-elixir/</guid>
+      <description>&lt;p&gt;I attended the first Edinburgh Elixir meet-up on Monday.
+It was a great social event with around ~20 attendees.
+Most of which were first time Elixir users.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>The Crockford Invocation</title>
+      <link>https://briandgls.github.io/2016/the-crockford-invocation/</link>
+      <pubDate>Sun, 11 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/the-crockford-invocation/</guid>
+      <description>&lt;p&gt;In this post we are going to look at some common invocation patterns used in javascript. We will then examine how they can be improved using ES6 syntax.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Fire, Snow, and Rain Canvas Effects</title>
+      <link>https://briandgls.github.io/2016/snes-style-canvas-effects/</link>
+      <pubDate>Mon, 15 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/snes-style-canvas-effects/</guid>
+      <description>&lt;p&gt;All three of the demos below are written in Typescript and make use of the browser&amp;rsquo;s canvas element.
+No external libraries are used and each example is made up of around 100 lines of code.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Whats New in ES2016 (ES7)</title>
+      <link>https://briandgls.github.io/2016/whats-new-in-es2017/</link>
+      <pubDate>Mon, 27 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/whats-new-in-es2017/</guid>
+      <description>&lt;p&gt;ES6 introduced a huge number of improvements to Javascript.
+It was the first major update to the language since 2009 and It was due to this that so many features were added.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Creating Fractals</title>
+      <link>https://briandgls.github.io/2016/creating-fractals/</link>
+      <pubDate>Thu, 21 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2016/creating-fractals/</guid>
+      <description>&lt;p&gt;Fractals show the beauty of numbers. There are many famous fractals, which are often named after European mathematicians. You may have heard of Sierpinski&amp;rsquo;s Triangle, the Mandelbrot Set, and the Koch Curve. These are all fractal patterns.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hi, My name is Brian</title>
+      <link>https://briandgls.github.io/about/</link>
+      <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/about/</guid>
+      <description>I am a Software Engineer living and working in Donegal, Ireland.
+I have a Master&amp;rsquo;s degree in Computer Science and am always looking to learn new things related to programming.
+I mostly program in Typescript, Javascript, and PHP. Though I always have an eye on new languages and frameworks that I would like to learn.
+Feel free to check out my current projects on github. My username is BrianDGLS.</description>
+    </item>
+    
+  </channel>
+</rss>

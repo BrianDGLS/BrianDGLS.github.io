@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vue on BrianDGLS</title>
+    <link>https://briandgls.github.io/categories/vue/</link>
+    <description>Recent content in vue on BrianDGLS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 22 May 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://briandgls.github.io/categories/vue/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using Vue Class Components</title>
+      <link>https://briandgls.github.io/2017/using-vue-class-components/</link>
+      <pubDate>Mon, 22 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2017/using-vue-class-components/</guid>
+      <description>&lt;p&gt;The &lt;a href=&#34;https://github.com/vuejs/vue-class-component&#34;&gt;Vue Class Component&lt;/a&gt; module provides a component decorator which can inject properties into &lt;a href=&#34;https://github.com/vuejs/vue&#34;&gt;Vue&lt;/a&gt; components.
+This allows developers to create components which make use of javascript&amp;rsquo;s natural language constructs.
+The more native syntax helps with readability and developer understanding.
+Which ultimately contributes to maintainability.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

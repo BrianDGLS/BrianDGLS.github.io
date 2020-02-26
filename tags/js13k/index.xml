@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>js13k on BrianDGLS</title>
+    <link>https://briandgls.github.io/tags/js13k/</link>
+    <description>Recent content in js13k on BrianDGLS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 30 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://briandgls.github.io/tags/js13k/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Connection Defender - js13k</title>
+      <link>https://briandgls.github.io/2018/js13k-2018-connection-defender/</link>
+      <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2018/js13k-2018-connection-defender/</guid>
+      <description>&lt;p&gt;I have entered &lt;a href=&#34;https://js13kgames.com/&#34;&gt;js13k&lt;/a&gt; this year. It is a javascript game competition in which the total game size must be less than 13kb. You can checkout my entry at the following url: &lt;a href=&#34;https://js13kgames.com/entries/connection-defender&#34;&gt;https://js13kgames.com/entries/connection-defender&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
