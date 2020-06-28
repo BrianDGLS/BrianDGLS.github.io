@@ -6,10 +6,19 @@
     <description>Recent content in javascript on BrianDGLS</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 15 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://briandgls.github.io/categories/javascript/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Introducing Fáilte Maps</title>
+      <link>https://briandgls.github.io/2020/failte-maps/</link>
+      <pubDate>Tue, 23 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2020/failte-maps/</guid>
+      <description>&lt;p&gt;Today I am launching the &lt;a href=&#34;https://failte-maps.ie/&#34;&gt;&lt;em&gt;Fáilte Maps&lt;/em&gt;&lt;/a&gt; web app. This app makes use of data that has been made available by Fáilte Ireland on &lt;a href=&#34;https://data.gov.ie/organization/failte-ireland&#34;&gt;data.gov.ie&lt;/a&gt; under the &lt;a href=&#34;https://creativecommons.org/licenses/by/4.0/&#34;&gt;Creative Commons Attribution 4.0&lt;/a&gt; license.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Featured Codepen: Man on the moon</title>

@@ -3,12 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://briandgls.github.io/2019/</loc>
-    <lastmod>2019-07-15T00:00:00+00:00</lastmod>
+    <loc>https://briandgls.github.io/2020/</loc>
+    <lastmod>2020-06-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://briandgls.github.io/categories/</loc>
+    <lastmod>2020-06-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/2020/failte-maps/</loc>
+    <lastmod>2020-06-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/categories/javascript/</loc>
+    <lastmod>2020-06-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/tags/maps/</loc>
+    <lastmod>2020-06-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/tags/</loc>
+    <lastmod>2020-06-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://briandgls.github.io/2019/</loc>
     <lastmod>2019-07-15T00:00:00+00:00</lastmod>
   </url>
   
@@ -19,16 +44,6 @@
   
   <url>
     <loc>https://briandgls.github.io/2019/man-on-the-moon/</loc>
-    <lastmod>2019-07-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://briandgls.github.io/categories/javascript/</loc>
-    <lastmod>2019-07-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://briandgls.github.io/tags/</loc>
     <lastmod>2019-07-15T00:00:00+00:00</lastmod>
   </url>
   
