@@ -6,10 +6,19 @@
     <description>Recent content in javascript on BrianDGLS</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 30 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://briandgls.github.io/categories/javascript/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Fáilte Maps Showcased on data.gov.ie</title>
+      <link>https://briandgls.github.io/2020/failte-maps-showcase/</link>
+      <pubDate>Tue, 30 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/2020/failte-maps-showcase/</guid>
+      <description>&lt;p&gt;I am delighted to announce that &lt;a href=&#34;https://failte-maps.ie/&#34;&gt;Fáilte Maps&lt;/a&gt; is now showcased on &lt;a href=&#34;https://data.gov.ie/showcase/failte-maps&#34;&gt;data.gov.ie&lt;/a&gt;. It will also be featured in their upcoming newsletter.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Introducing Fáilte Maps</title>
