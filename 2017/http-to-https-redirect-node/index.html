@@ -1,85 +1,199 @@
-<!DOCTYPE html><html lang=en><meta charset=utf-8><meta name=theme-color content=#000><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=description content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas."><link rel=manifest href=/manifest.webmanifest><link rel=mask-icon href=/favicon/safari-pinned-tab.svg color=#5bbad5><link rel=apple-touch-icon sizes=180x180 href=/favicon/apple-touch-icon.png><link rel=icon type=image/png href=/favicon/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/favicon/favicon-16x16.png sizes=16x16><link rel=canonical href=https://briandgls.github.io/2017/http-to-https-redirect-node/ ><title>BrianDGLS</title><meta name=description content="&lt;p&gt;Node comes with https support out of the box.
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+<meta name="theme-color" content="#000">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="description" content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas.">
+
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
+
+<link rel="canonical" href="https://briandgls.github.io/2017/http-to-https-redirect-node/">
+
+  <title>BrianDGLS</title>
+
+  
+  <meta name="description" content="&lt;p&gt;Node comes with https support out of the box.
 This article will explain how to redirect your http traffic to https.
 &lt;a href=&#34;https://expressjs.com/en/api.html&#34;&gt;Express 4&lt;/a&gt; will be used to demo this.
-The code examples will be written in &lt;a href=&#34;https://www.typescriptlang.org/&#34;&gt;Typescript&lt;/a&gt;.&lt;/p&gt;"><meta property=og:locale content=en_GB><meta property=og:type content=article><meta property=og:url content=https://briandgls.github.io/2017/http-to-https-redirect-node/ ><meta property=og:site_name content=BrianDGLS><meta property=og:title content="Http to Https Redirect in Node - BrianDGLS"><meta property=og:description content="&lt;p&gt;Node comes with https support out of the box.
+The code examples will be written in &lt;a href=&#34;https://www.typescriptlang.org/&#34;&gt;Typescript&lt;/a&gt;.&lt;/p&gt;">
+
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://briandgls.github.io/2017/http-to-https-redirect-node/">
+<meta property="og:site_name" content="BrianDGLS">
+<meta property="og:title" content="Http to Https Redirect in Node - BrianDGLS">
+<meta property="og:description" content="&lt;p&gt;Node comes with https support out of the box.
 This article will explain how to redirect your http traffic to https.
 &lt;a href=&#34;https://expressjs.com/en/api.html&#34;&gt;Express 4&lt;/a&gt; will be used to demo this.
-The code examples will be written in &lt;a href=&#34;https://www.typescriptlang.org/&#34;&gt;Typescript&lt;/a&gt;.&lt;/p&gt;"><style>/****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */</style><div class=hc-top-line></div><div class="hc-layout hc-layout--page"><section class=hc-aside><div class=hc-aside__fixed><div class=hc-user-card id=js-github-user-card><img class=hc-user-card__img alt="picture of me, Brian Douglas" data-src=/images/me.jpeg><div class=hc-user-card__details><h2 class=hc-user-card__name>Brian Douglas</h2><h4 class=hc-user-card__github-username><a href=https://github.com/BrianDGLS>@BrianDGLS</a></h4><p class=hc-user-card__bio>An Irish software engineer. Focused on Javascript and the web platform.<div class=hc-user-card__links-wrap><a class=hc-user-card__link href=https://github.com/BrianDGLS/ >Github</a> <a class=hc-user-card__link href=https://codepen.io/BrianDGLS/ >Codepen</a></div></div></div></div></section><section class=hc-content><article id=article-73c2a952fe278df9c36dd4abe930887c class=hc-article><header class=hc-article-header><time class=hc-article-header__date datetime="Tue, Apr 4, 2017">Apr 4, 2017</time><h1 class=hc-article-header__title>Http to Https Redirect in Node</h1></header><div class=hc-article-body><p>Node comes with https support out of the box. This article will explain how to redirect your http traffic to https. <a href=https://expressjs.com/en/api.html>Express 4</a> will be used to demo this. The code examples will be written in <a href=https://www.typescriptlang.org/ >Typescript</a>.<h2 id=setting-up-a-httpredirect-class>Setting up a HttpRedirect class</h2><p>We will create a seperate express instance to handle the http to https redirect. This new instance will use a http server and redirect all of it&rsquo;s incoming traffic to the sites equivalent https route.<p>In the example below we instantiate a new express instance and pass it to a http server. We then set up a route guard that will check all incoming requests and redirect those that are http to the equivalent https route.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#75715e>// ./HttpRedirect.ts
-</span><span style=color:#75715e>// import server from the http module
-</span><span style=color:#75715e></span><span style=color:#66d9ef>import</span> { <span style=color:#a6e22e>Server</span>, <span style=color:#a6e22e>createServer</span> } <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;http&#39;</span>
-<span style=color:#66d9ef>import</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>as</span> <span style=color:#a6e22e>express</span> <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;express&#39;</span>
+The code examples will be written in &lt;a href=&#34;https://www.typescriptlang.org/&#34;&gt;Typescript&lt;/a&gt;.&lt;/p&gt;">
 
-<span style=color:#66d9ef>export</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>HttpRedirect</span> {
-  <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>app</span>: <span style=color:#66d9ef>express.Application</span>
-  <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>server</span>: <span style=color:#66d9ef>Server</span>
 
-  <span style=color:#66d9ef>constructor</span>() {
-    <span style=color:#75715e>// initialize the new express instance
-</span><span style=color:#75715e></span>    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>app</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>express</span>()
-    <span style=color:#75715e>// pass this express instance to the http server
-</span><span style=color:#75715e></span>    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>server</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createServer</span>(<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>app</span>)
+  <style>
+    /****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */
+  </style>
+</head>
 
-    <span style=color:#75715e>// instantiate routes
-</span><span style=color:#75715e></span>    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>routes</span>()
+<body>
+  <div class="hc-top-line"></div>
+  <div class="hc-layout hc-layout--page">
+    <section class="hc-aside">
+      <div class="hc-aside__fixed">
+        <div class="hc-user-card" id="js-github-user-card">
+  <img class="hc-user-card__img" alt="picture of me, Brian Douglas" data-src="/images/me.jpeg">
+  <div class="hc-user-card__details">
+    <h2 class="hc-user-card__name">Brian Douglas</h2>
+    <h4 class="hc-user-card__github-username">
+      <a href="https://github.com/BrianDGLS">@BrianDGLS</a>
+    </h4>
+    <p class="hc-user-card__bio">An Irish software engineer. Focused on Javascript and the web platform.</p>
+    <div class="hc-user-card__links-wrap">
+      <a class="hc-user-card__link" href="https://github.com/BrianDGLS/">Github</a>
+      <a class="hc-user-card__link" href="https://codepen.io/BrianDGLS/">Codepen</a>
+    </div>
+  </div>
+</div>
+      </div>
+    </section>
+
+    <section class="hc-content">
+      
+<article id="article-73c2a952fe278df9c36dd4abe930887c" class="hc-article">
+  <header class="hc-article-header">
+    <time class="hc-article-header__date" datetime="Tue, Apr 4, 2017">Apr 4, 2017</time>
+    <h1 class="hc-article-header__title">Http to Https Redirect in Node</h1>
+  </header>
+
+  <div class="hc-article-body"><p>Node comes with https support out of the box.
+This article will explain how to redirect your http traffic to https.
+<a href="https://expressjs.com/en/api.html">Express 4</a> will be used to demo this.
+The code examples will be written in <a href="https://www.typescriptlang.org/">Typescript</a>.</p>
+<h2 id="setting-up-a-httpredirect-class">Setting up a HttpRedirect class</h2>
+<p>We will create a seperate express instance to handle the http to https redirect.
+This new instance will use a http server and redirect all of it&rsquo;s incoming traffic
+to the sites equivalent https route.</p>
+<p>In the example below we instantiate a new express instance and pass it to a http server.
+We then set up a route guard that will check all incoming requests and redirect those that
+are http to the equivalent https route.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#75715e">// ./HttpRedirect.ts
+</span><span style="color:#75715e">// import server from the http module
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Server</span>, <span style="color:#a6e22e">createServer</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;http&#39;</span>
+<span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">express</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;express&#39;</span>
+
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HttpRedirect</span> {
+  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">app</span>: <span style="color:#66d9ef">express.Application</span>
+  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">server</span>: <span style="color:#66d9ef">Server</span>
+
+  <span style="color:#66d9ef">constructor</span>() {
+    <span style="color:#75715e">// initialize the new express instance
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>()
+    <span style="color:#75715e">// pass this express instance to the http server
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">server</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createServer</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">app</span>)
+
+    <span style="color:#75715e">// instantiate routes
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">routes</span>()
   }
 
-  <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>routes</span>()<span style=color:#f92672>:</span> <span style=color:#66d9ef>void</span> {
-    <span style=color:#75715e>// tell the express instance to run this callback for each request
-</span><span style=color:#75715e></span>    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>app</span>.<span style=color:#a6e22e>use</span>((<span style=color:#a6e22e>req</span>, <span style=color:#a6e22e>res</span>, <span style=color:#a6e22e>next</span>) <span style=color:#f92672>=&gt;</span>
-      <span style=color:#75715e>// check if it is a secure (https) request
-</span><span style=color:#75715e></span>      <span style=color:#75715e>// if not redirect to the equivalent https url
-</span><span style=color:#75715e></span>      <span style=color:#f92672>!</span><span style=color:#a6e22e>req</span>.<span style=color:#a6e22e>secure</span> <span style=color:#f92672>?</span> <span style=color:#a6e22e>res</span>.<span style=color:#a6e22e>redirect</span>(<span style=color:#e6db74>&#39;https://&#39;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>req</span>.<span style=color:#a6e22e>hostname</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>req</span>.<span style=color:#a6e22e>url</span>) <span style=color:#f92672>:</span> <span style=color:#a6e22e>next</span>()
+  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">routes</span>()<span style="color:#f92672">:</span> <span style="color:#66d9ef">void</span> {
+    <span style="color:#75715e">// tell the express instance to run this callback for each request
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>((<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) <span style="color:#f92672">=&gt;</span>
+      <span style="color:#75715e">// check if it is a secure (https) request
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">// if not redirect to the equivalent https url
+</span><span style="color:#75715e"></span>      <span style="color:#f92672">!</span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">secure</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;https://&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">hostname</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">url</span>) <span style="color:#f92672">:</span> <span style="color:#a6e22e">next</span>()
     )
   }
 
-  <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>listen</span>(<span style=color:#a6e22e>port</span>: <span style=color:#66d9ef>number</span>)<span style=color:#f92672>:</span> <span style=color:#66d9ef>void</span> {
-    <span style=color:#75715e>// tell express instance to listen on given port
-</span><span style=color:#75715e></span>    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>server</span>.<span style=color:#a6e22e>listen</span>(<span style=color:#a6e22e>port</span>)
+  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">listen</span>(<span style="color:#a6e22e">port</span>: <span style="color:#66d9ef">number</span>)<span style="color:#f92672">:</span> <span style="color:#66d9ef">void</span> {
+    <span style="color:#75715e">// tell express instance to listen on given port
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#a6e22e">port</span>)
   }
 }
-</code></pre></div><h2 id=using-the-httpredirect-class>Using the HttpRedirect class</h2><p>Now that we have set up the <code>HttpRedirect</code> class in the above section we can look at using it in the context of an express application.<p>As our http redirect will run as a seperate http server we must start that server along with our main application&rsquo;s server. To do this we will instantiate our <code>HttpRedirect</code> class inside the main express instance&rsquo;s <code>listen</code> callback. Once this is done we will have two seperate server instances running, one on http the other on https. The http instance will redirect to the https instance. An example of this can be found below.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#75715e>// ./Server.ts
-</span><span style=color:#75715e></span><span style=color:#66d9ef>import</span> { <span style=color:#a6e22e>join</span> } <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;path&#39;</span>
-<span style=color:#66d9ef>import</span> { <span style=color:#a6e22e>readFileSync</span> } <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;fs&#39;</span>
-<span style=color:#75715e>// import server from https module
-</span><span style=color:#75715e></span><span style=color:#66d9ef>import</span> { <span style=color:#a6e22e>Server</span> <span style=color:#66d9ef>as</span> <span style=color:#a6e22e>HttpsServer</span>, <span style=color:#a6e22e>createServer</span> } <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;https&#39;</span>
+</code></pre></div><h2 id="using-the-httpredirect-class">Using the HttpRedirect class</h2>
+<p>Now that we have set up the <code>HttpRedirect</code> class in the above section we can look at
+using it in the context of an express application.</p>
+<p>As our http redirect will run as a seperate http server we must start that server along with
+our main application&rsquo;s server.
+To do this we will instantiate our <code>HttpRedirect</code> class inside the main express instance&rsquo;s <code>listen</code> callback.
+Once this is done we will have two seperate server instances running, one on http the other on https.
+The http instance will redirect to the https instance.
+An example of this can be found below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#75715e">// ./Server.ts
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">join</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;path&#39;</span>
+<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">readFileSync</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;fs&#39;</span>
+<span style="color:#75715e">// import server from https module
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Server</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">HttpsServer</span>, <span style="color:#a6e22e">createServer</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;https&#39;</span>
 
-<span style=color:#66d9ef>import</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>as</span> <span style=color:#a6e22e>express</span> <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;express&#39;</span>
+<span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">express</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;express&#39;</span>
 
-<span style=color:#75715e>// import out HttpRedirect class
-</span><span style=color:#75715e></span><span style=color:#66d9ef>import</span> { <span style=color:#a6e22e>HttpRedirect</span> } <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;./httpRedirect&#39;</span>
+<span style="color:#75715e">// import out HttpRedirect class
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">HttpRedirect</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./httpRedirect&#39;</span>
 
-<span style=color:#66d9ef>export</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Server</span> {
-  <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>SECURE_PORT</span>: <span style=color:#66d9ef>number</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>443</span>
-  <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>REDIRECT_PORT</span>: <span style=color:#66d9ef>number</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>80</span>
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span> {
+  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">SECURE_PORT</span>: <span style="color:#66d9ef">number</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">443</span>
+  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">REDIRECT_PORT</span>: <span style="color:#66d9ef">number</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>
 
-  <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>app</span>: <span style=color:#66d9ef>express.Application</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>express</span>()
+  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">app</span>: <span style="color:#66d9ef">express.Application</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>()
 
-  <span style=color:#75715e>// get out ssl credentials for the https server
-</span><span style=color:#75715e></span>  <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>ssl</span><span style=color:#f92672>:</span> { <span style=color:#a6e22e>key</span>: <span style=color:#66d9ef>string</span>, <span style=color:#a6e22e>cert</span>: <span style=color:#66d9ef>string</span> } <span style=color:#f92672>=</span> {
-    <span style=color:#a6e22e>key</span>: <span style=color:#66d9ef>readFileSync</span>(<span style=color:#a6e22e>join</span>(<span style=color:#a6e22e>__dirname</span>, <span style=color:#e6db74>&#39;certs/server.key&#39;</span>), <span style=color:#e6db74>&#39;utf8&#39;</span>),
-    <span style=color:#a6e22e>cert</span>: <span style=color:#66d9ef>readFileSync</span>(<span style=color:#a6e22e>join</span>(<span style=color:#a6e22e>__dirname</span>, <span style=color:#e6db74>&#39;certs/server.crt&#39;</span>), <span style=color:#e6db74>&#39;utf8&#39;</span>)
+  <span style="color:#75715e">// get out ssl credentials for the https server
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">ssl</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">cert</span>: <span style="color:#66d9ef">string</span> } <span style="color:#f92672">=</span> {
+    <span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">readFileSync</span>(<span style="color:#a6e22e">join</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;certs/server.key&#39;</span>), <span style="color:#e6db74">&#39;utf8&#39;</span>),
+    <span style="color:#a6e22e">cert</span>: <span style="color:#66d9ef">readFileSync</span>(<span style="color:#a6e22e">join</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;certs/server.crt&#39;</span>), <span style="color:#e6db74">&#39;utf8&#39;</span>)
   }
 
-  <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>server</span>: <span style=color:#66d9ef>HttpsServer</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createServer</span>(<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>ssl</span>, <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>app</span>)
+  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">server</span>: <span style="color:#66d9ef">HttpsServer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createServer</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ssl</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">app</span>)
 
-  <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>listen</span>()<span style=color:#f92672>:</span> <span style=color:#66d9ef>void</span> {
-    <span style=color:#75715e>// start main https server
-</span><span style=color:#75715e></span>    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>server</span>.<span style=color:#a6e22e>listen</span>(<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>SECURE_PORT</span>, () <span style=color:#f92672>=&gt;</span> {
-      <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>`Server started on changed PORT:</span><span style=color:#e6db74>${</span><span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>SECURE_PORT</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>)
+  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">listen</span>()<span style="color:#f92672">:</span> <span style="color:#66d9ef">void</span> {
+    <span style="color:#75715e">// start main https server
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">SECURE_PORT</span>, () <span style="color:#f92672">=&gt;</span> {
+      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Server started on changed PORT:</span><span style="color:#e6db74">${</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">SECURE_PORT</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>)
 
-      <span style=color:#75715e>// instantiate `HttpRedirect` and start it&#39;s server on the given port
-</span><span style=color:#75715e></span>      <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>HttpRedirect</span>().<span style=color:#a6e22e>listen</span>(<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>REDIRECT_PORT</span>)
+      <span style="color:#75715e">// instantiate `HttpRedirect` and start it&#39;s server on the given port
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">HttpRedirect</span>().<span style="color:#a6e22e">listen</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">REDIRECT_PORT</span>)
     })
   }
 
-  <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>start</span>()<span style=color:#f92672>:</span> <span style=color:#66d9ef>void</span> {
-    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>app</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;/&#39;</span>, (<span style=color:#a6e22e>req</span>, <span style=color:#a6e22e>res</span>) <span style=color:#f92672>=&gt;</span> <span style=color:#a6e22e>res</span>.<span style=color:#a6e22e>send</span>(<span style=color:#e6db74>&#39;hello world&#39;</span>))
+  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">start</span>()<span style="color:#f92672">:</span> <span style="color:#66d9ef">void</span> {
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/&#39;</span>, (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;hello world&#39;</span>))
 
-    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>listen</span>()
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">listen</span>()
   }
 }
-</code></pre></div><p>We have now set up a http to https redirect. The <code>HttpRedirect</code> class used above is very useful and a handy recipe to have as a Node developer.</div></article><footer class=hc-footer><nav class=hc-footer__nav><a href=https://briandgls.github.io//about class=hc-footer__nav-link>About Me</a> <a href=https://github.com/BrianDGLS class=hc-footer__nav-link>Github</a> <a href=https://codepen.io/BrianDGLS/ class=hc-footer__nav-link>Codepen</a></nav><p class=hc-footer__brand><span class=hc-footer__year></span> / <a href=https://briandgls.github.io/ class=hc-footer__brand-link>BrianDGLS</a></p><script>const $year = document.querySelector('.hc-footer__year')
-        $year.textContent = new Date().getFullYear()</script></footer></section></div><a href=# title="back to top" rel=nofollow tabindex=0></a><link rel=stylesheet href=/prism/prism.css async defer><script src=/prism/prism.js async defer></script><script>if ('serviceWorker' in navigator) {
+</code></pre></div><p>We have now set up a http to https redirect.
+The <code>HttpRedirect</code> class used above is very useful and a handy recipe to have as a Node developer.</p></div>
+</article>
+
+      <footer class="hc-footer">
+    <nav class="hc-footer__nav">
+        <a href="https://briandgls.github.io//about" class="hc-footer__nav-link">About Me</a>
+        <a href="https://github.com/BrianDGLS" class="hc-footer__nav-link">Github</a>
+        <a href="https://codepen.io/BrianDGLS/" class="hc-footer__nav-link">Codepen</a>
+    </nav>
+    <p class="hc-footer__brand">
+        <span class="hc-footer__year"></span> /
+        <a href="https://briandgls.github.io/" class="hc-footer__brand-link">BrianDGLS</a>
+    </p>
+    <script>
+        const $year = document.querySelector('.hc-footer__year')
+        $year.textContent = new Date().getFullYear()
+    </script>
+</footer>
+    </section>
+  </div>
+
+  <a href="#" title="back to top" rel="nofollow" tabindex="0"></a>
+
+  
+  <link rel="stylesheet" href="/prism/prism.css" async defer>
+  <script src="/prism/prism.js" async defer></script> 
+  
+
+  <script>
+    if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
       }, {once: true});
@@ -93,4 +207,8 @@ The code examples will be written in &lt;a href=&#34;https://www.typescriptlang.
           img.onload = () => img.removeAttribute('data-src');
         }
       }
-    }, {once: true});</script>
+    }, {once: true});
+  </script>
+</body>
+
+</html>

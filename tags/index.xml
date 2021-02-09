@@ -6,10 +6,19 @@
     <description>Recent content in Tags on BrianDGLS</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 30 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://briandgls.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>angular</title>
+      <link>https://briandgls.github.io/tags/angular/</link>
+      <pubDate>Mon, 08 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://briandgls.github.io/tags/angular/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>maps</title>
@@ -89,15 +98,6 @@
       <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>https://briandgls.github.io/tags/javascript/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>angular</title>
-      <link>https://briandgls.github.io/tags/angular/</link>
-      <pubDate>Sun, 11 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://briandgls.github.io/tags/angular/</guid>
       <description></description>
     </item>
     

@@ -1,30 +1,167 @@
-<!DOCTYPE html><html lang=en><meta charset=utf-8><meta name=theme-color content=#000><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=description content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas."><link rel=manifest href=/manifest.webmanifest><link rel=mask-icon href=/favicon/safari-pinned-tab.svg color=#5bbad5><link rel=apple-touch-icon sizes=180x180 href=/favicon/apple-touch-icon.png><link rel=icon type=image/png href=/favicon/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/favicon/favicon-16x16.png sizes=16x16><link rel=canonical href=https://briandgls.github.io/2017/large-number-addition/ ><title>BrianDGLS</title><meta name=description content="&lt;p&gt;Javascript supports at most 53 bit integers.
-What this means is that integers larger than 53 bits lose precision.
-This article will explain how to handle addition with integers larger than 53 bits in javascript.&lt;/p&gt;"><meta property=og:locale content=en_GB><meta property=og:type content=article><meta property=og:url content=https://briandgls.github.io/2017/large-number-addition/ ><meta property=og:site_name content=BrianDGLS><meta property=og:title content="Large Number Addition in Javascript - BrianDGLS"><meta property=og:description content="&lt;p&gt;Javascript supports at most 53 bit integers.
-What this means is that integers larger than 53 bits lose precision.
-This article will explain how to handle addition with integers larger than 53 bits in javascript.&lt;/p&gt;"><style>/****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */</style><div class=hc-top-line></div><div class="hc-layout hc-layout--page"><section class=hc-aside><div class=hc-aside__fixed><div class=hc-user-card id=js-github-user-card><img class=hc-user-card__img alt="picture of me, Brian Douglas" data-src=/images/me.jpeg><div class=hc-user-card__details><h2 class=hc-user-card__name>Brian Douglas</h2><h4 class=hc-user-card__github-username><a href=https://github.com/BrianDGLS>@BrianDGLS</a></h4><p class=hc-user-card__bio>An Irish software engineer. Focused on Javascript and the web platform.<div class=hc-user-card__links-wrap><a class=hc-user-card__link href=https://github.com/BrianDGLS/ >Github</a> <a class=hc-user-card__link href=https://codepen.io/BrianDGLS/ >Codepen</a></div></div></div></div></section><section class=hc-content><article id=article-d124c542db0bd0d552342b7b9e9cca69 class=hc-article><header class=hc-article-header><time class=hc-article-header__date datetime="Fri, Jun 9, 2017">Jun 9, 2017</time><h1 class=hc-article-header__title>Large Number Addition in Javascript</h1></header><div class=hc-article-body><p>Javascript supports at most 53 bit integers. What this means is that integers larger than 53 bits lose precision. This article will explain how to handle addition with integers larger than 53 bits in javascript.<h2 id=background>Background</h2><p>Whilst on <a href=https://codewars.com>codewars.com</a> I came across the following <a href=https://www.codewars.com/kata/sum-strings-as-numbers/javascript>sum strings kata</a>.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#75715e>// Given the string representations of two integers, return the string representation of the sum of those integers.
-</span><span style=color:#75715e></span>
-<span style=color:#75715e>// For example:
-</span><span style=color:#75715e></span>
-<span style=color:#a6e22e>sumStrings</span>(<span style=color:#e6db74>&#39;1&#39;</span>,<span style=color:#e6db74>&#39;2&#39;</span>) <span style=color:#75715e>// =&gt; &#39;3&#39;
-</span><span style=color:#75715e></span>
-<span style=color:#75715e>// A string representation of an integer will contain no characters besides the ten numerals &#34;0&#34; to &#34;9&#34;.
-</span></code></pre></div><p>This disceptively easy kata leverages the fact that javascript supports at most 53 bit integers. The initial tests use small numbers. Converting the given strings to integers and adding via the <code>+</code> operator is valid when using these smaller numbers. When it comes to the tests involving integers larger than 53 bits however, this will fail.<p>One technique for handling large integers in javascript is to hold the integer as a string. This works as a string can be much larger than 53 bits. It is also the reason the aforementioned kata uses strings as input.<p>One of the first algorithm&rsquo;s learned at primary school is the basic addition algorithm. This is demonstrated in the image below.<p><img src=/images/addition.png alt="example of addition from http://www.stoimen.com/blog/2013/01/07/computer-algorithms-adding-large-integers/"><p><em>Above image from <a href=http://www.stoimen.com/blog/2013/01/07/computer-algorithms-adding-large-integers/ >http://www.stoimen.com</a></em><p>Inorder to complete the sum strings kata this same algorithm will be used. In the next section we will apply the basic addition algorithm inorder to pass the kata&rsquo;s tests.<h2 id=implementation>Implementation</h2><p>In the following solution two functions are used. The main <code>sumStrings</code> function will perform a check to see if both the input strings are <code>'0'</code> and return <code>'0'</code> if so, as there is no computation necessary. If the input needs computation the strings will be split into an array and handed to the <code>addition</code> function. The <code>addition</code> function will then be recursively called. Each recursive call will add the last two items of each array and carry over any leftovers to the next call. When there are no items left in one of the arrays and no carrys present the accumulator will be returned.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>addition</span>(<span style=color:#a6e22e>a</span>, <span style=color:#a6e22e>b</span>, <span style=color:#a6e22e>acc</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;&#39;</span>, <span style=color:#a6e22e>carry</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>) {
-  <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>(<span style=color:#a6e22e>a</span>.<span style=color:#a6e22e>length</span> <span style=color:#f92672>||</span> <span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>length</span> <span style=color:#f92672>||</span> <span style=color:#a6e22e>carry</span>)) <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>acc</span>.<span style=color:#a6e22e>replace</span>(<span style=color:#e6db74>/^0+/</span>, <span style=color:#e6db74>&#39;&#39;</span>);
+<!DOCTYPE html>
+<html lang="en">
 
-  <span style=color:#a6e22e>carry</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>carry</span> <span style=color:#f92672>+</span> (<span style=color:#f92672>~~</span><span style=color:#a6e22e>a</span>.<span style=color:#a6e22e>pop</span>() <span style=color:#f92672>+</span> <span style=color:#f92672>~~</span><span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>pop</span>());
-  <span style=color:#a6e22e>acc</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>carry</span> <span style=color:#f92672>%</span> <span style=color:#ae81ff>10</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>acc</span>;
-  <span style=color:#a6e22e>carry</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>carry</span> <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>9</span>;
+<head>
+  <meta charset="utf-8">
+<meta name="theme-color" content="#000">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="description" content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas.">
 
-  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>addition</span>(<span style=color:#a6e22e>a</span>, <span style=color:#a6e22e>b</span>, <span style=color:#a6e22e>acc</span>, <span style=color:#a6e22e>carry</span>);
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
+
+<link rel="canonical" href="https://briandgls.github.io/2017/large-number-addition/">
+
+  <title>BrianDGLS</title>
+
+  
+  <meta name="description" content="&lt;p&gt;Javascript supports at most 53 bit integers.
+What this means is that integers larger than 53 bits lose precision.
+This article will explain how to handle addition with integers larger than 53 bits in javascript.&lt;/p&gt;">
+
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://briandgls.github.io/2017/large-number-addition/">
+<meta property="og:site_name" content="BrianDGLS">
+<meta property="og:title" content="Large Number Addition in Javascript - BrianDGLS">
+<meta property="og:description" content="&lt;p&gt;Javascript supports at most 53 bit integers.
+What this means is that integers larger than 53 bits lose precision.
+This article will explain how to handle addition with integers larger than 53 bits in javascript.&lt;/p&gt;">
+
+
+  <style>
+    /****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */
+  </style>
+</head>
+
+<body>
+  <div class="hc-top-line"></div>
+  <div class="hc-layout hc-layout--page">
+    <section class="hc-aside">
+      <div class="hc-aside__fixed">
+        <div class="hc-user-card" id="js-github-user-card">
+  <img class="hc-user-card__img" alt="picture of me, Brian Douglas" data-src="/images/me.jpeg">
+  <div class="hc-user-card__details">
+    <h2 class="hc-user-card__name">Brian Douglas</h2>
+    <h4 class="hc-user-card__github-username">
+      <a href="https://github.com/BrianDGLS">@BrianDGLS</a>
+    </h4>
+    <p class="hc-user-card__bio">An Irish software engineer. Focused on Javascript and the web platform.</p>
+    <div class="hc-user-card__links-wrap">
+      <a class="hc-user-card__link" href="https://github.com/BrianDGLS/">Github</a>
+      <a class="hc-user-card__link" href="https://codepen.io/BrianDGLS/">Codepen</a>
+    </div>
+  </div>
+</div>
+      </div>
+    </section>
+
+    <section class="hc-content">
+      
+<article id="article-d124c542db0bd0d552342b7b9e9cca69" class="hc-article">
+  <header class="hc-article-header">
+    <time class="hc-article-header__date" datetime="Fri, Jun 9, 2017">Jun 9, 2017</time>
+    <h1 class="hc-article-header__title">Large Number Addition in Javascript</h1>
+  </header>
+
+  <div class="hc-article-body"><p>Javascript supports at most 53 bit integers.
+What this means is that integers larger than 53 bits lose precision.
+This article will explain how to handle addition with integers larger than 53 bits in javascript.</p>
+<h2 id="background">Background</h2>
+<p>Whilst on <a href="https://codewars.com">codewars.com</a> I came across the following <a href="https://www.codewars.com/kata/sum-strings-as-numbers/javascript">sum strings kata</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// Given the string representations of two integers, return the string representation of the sum of those integers.
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// For example:
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">sumStrings</span>(<span style="color:#e6db74">&#39;1&#39;</span>,<span style="color:#e6db74">&#39;2&#39;</span>) <span style="color:#75715e">// =&gt; &#39;3&#39;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// A string representation of an integer will contain no characters besides the ten numerals &#34;0&#34; to &#34;9&#34;.
+</span></code></pre></div><p>This disceptively easy kata leverages the fact that javascript supports at most 53 bit integers.
+The initial tests use small numbers.
+Converting the given strings to integers and adding via the <code>+</code> operator is valid when using these smaller numbers.
+When it comes to the tests involving integers larger than 53 bits however, this will fail.</p>
+<p>One technique for handling large integers in javascript is to hold the integer as a string.
+This works as a string can be much larger than 53 bits.
+It is also the reason the aforementioned kata uses strings as input.</p>
+<p>One of the first algorithm&rsquo;s learned at primary school is the basic addition algorithm.
+This is demonstrated in the image below.</p>
+<p><img src="/images/addition.png" alt="example of addition from http://www.stoimen.com/blog/2013/01/07/computer-algorithms-adding-large-integers/"></p>
+<p><em>Above image from <a href="http://www.stoimen.com/blog/2013/01/07/computer-algorithms-adding-large-integers/">http://www.stoimen.com</a></em></p>
+<p>Inorder to complete the sum strings kata this same algorithm will be used.
+In the next section we will apply the basic addition algorithm inorder to pass the kata&rsquo;s tests.</p>
+<h2 id="implementation">Implementation</h2>
+<p>In the following solution two functions are used.
+The main <code>sumStrings</code> function will perform a check to see if both the input strings are <code>'0'</code>
+and return <code>'0'</code> if so, as there is no computation necessary.
+If the input needs computation the strings will be split into an array and handed to the <code>addition</code> function.
+The <code>addition</code> function will then be recursively called.
+Each recursive call will add the last two items of each array and carry over any leftovers to the next call.
+When there are no items left in one of the arrays and no carrys present the accumulator will be returned.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">addition</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">acc</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#a6e22e">carry</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) {
+  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">carry</span>)) <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">acc</span>.<span style="color:#a6e22e">replace</span>(<span style="color:#e6db74">/^0+/</span>, <span style="color:#e6db74">&#39;&#39;</span>);
+
+  <span style="color:#a6e22e">carry</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">carry</span> <span style="color:#f92672">+</span> (<span style="color:#f92672">~~</span><span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">pop</span>() <span style="color:#f92672">+</span> <span style="color:#f92672">~~</span><span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">pop</span>());
+  <span style="color:#a6e22e">acc</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">carry</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">acc</span>;
+  <span style="color:#a6e22e">carry</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">carry</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>;
+
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">addition</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">acc</span>, <span style="color:#a6e22e">carry</span>);
 }
 
-<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>sumStrings</span>(<span style=color:#a6e22e>a</span>, <span style=color:#a6e22e>b</span>) {
-  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>a</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;0&#39;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#a6e22e>b</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;0&#39;</span>) <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#39;0&#39;</span>;
-  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>addition</span>(<span style=color:#a6e22e>a</span>.<span style=color:#a6e22e>split</span>(<span style=color:#e6db74>&#39;&#39;</span>), <span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>split</span>(<span style=color:#e6db74>&#39;&#39;</span>));
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">sumStrings</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>) {
+  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;0&#39;</span>) <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;0&#39;</span>;
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">addition</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;&#39;</span>), <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;&#39;</span>));
 }
-</code></pre></div><p>The above solution can be found on github with tests at the following link, <a href=https://github.com/BrianDGLS/sum-large-numbers>https://github.com/BrianDGLS/sum-large-numbers</a>.<h2 id=summary>Summary</h2><p>The sum strings kata is ranked kyu 4 on <a href=https://codewars.com>codewars</a>. This means that it&rsquo;s considered to be difficult. The reason for the difficulty is javascript&rsquo;s inability to handle integers larger than 53 bits. Because of this it forces the developer to come up with a unique solution to the problem. In doing so it teaches a valuable lesson of how to deal with large integers in javascript.<p>The basic addition algorithm used to solve the kata is one of the first learned at elementary/primary school. Despite this implementing it in code is not straight forward. Solutions can be made using while loops, for loops, and recursion. Recursion however, feels the most appriate here. This is due to the fact that carrys and accumulators are needed to apply the algorithm. These two concepts are essential to recursion. In this scenario recursion is also the most readable as it keeps the code concise and explicit.<h2 id=further-reading>Further Reading</h2><p>A strong explantion of using computer algorithms to perform addition on large numbers can be found on <a href=http://www.stoimen.com/blog/2013/01/07/computer-algorithms-adding-large-integers/ >www.stoimen.com</a>.<p>Dr. Axel Rauschmayer has also written a great post documenting large integers in Javascript and some of the problems faced. The article is recommended reading for anyone interested in the subject and can be found <a href=http://2ality.com/2012/07/large-integers.html>here</a>.</div></article><footer class=hc-footer><nav class=hc-footer__nav><a href=https://briandgls.github.io//about class=hc-footer__nav-link>About Me</a> <a href=https://github.com/BrianDGLS class=hc-footer__nav-link>Github</a> <a href=https://codepen.io/BrianDGLS/ class=hc-footer__nav-link>Codepen</a></nav><p class=hc-footer__brand><span class=hc-footer__year></span> / <a href=https://briandgls.github.io/ class=hc-footer__brand-link>BrianDGLS</a></p><script>const $year = document.querySelector('.hc-footer__year')
-        $year.textContent = new Date().getFullYear()</script></footer></section></div><a href=# title="back to top" rel=nofollow tabindex=0></a><link rel=stylesheet href=/prism/prism.css async defer><script src=/prism/prism.js async defer></script><script>if ('serviceWorker' in navigator) {
+</code></pre></div><p>The above solution can be found on github with tests at the following link,
+<a href="https://github.com/BrianDGLS/sum-large-numbers">https://github.com/BrianDGLS/sum-large-numbers</a>.</p>
+<h2 id="summary">Summary</h2>
+<p>The sum strings kata is ranked kyu 4 on <a href="https://codewars.com">codewars</a>.
+This means that it&rsquo;s considered to be difficult.
+The reason for the difficulty is javascript&rsquo;s inability to handle integers larger than 53 bits.
+Because of this it forces the developer to come up with a unique solution to the problem.
+In doing so it teaches a valuable lesson of how to deal with large integers in javascript.</p>
+<p>The basic addition algorithm used to solve the kata is one of the first learned at elementary/primary school.
+Despite this implementing it in code is not straight forward.
+Solutions can be made using while loops, for loops, and recursion.
+Recursion however, feels the most appriate here.
+This is due to the fact that carrys and accumulators are needed to apply the algorithm.
+These two concepts are essential to recursion.
+In this scenario recursion is also the most readable as it keeps the code concise and explicit.</p>
+<h2 id="further-reading">Further Reading</h2>
+<p>A strong explantion of using computer algorithms to perform addition on large numbers can be found on <a href="http://www.stoimen.com/blog/2013/01/07/computer-algorithms-adding-large-integers/">www.stoimen.com</a>.</p>
+<p>Dr. Axel Rauschmayer has also written a great post documenting large integers in Javascript and some of the problems faced.
+The article is recommended reading for anyone interested in the subject and can be found <a href="http://2ality.com/2012/07/large-integers.html">here</a>.</p></div>
+</article>
+
+      <footer class="hc-footer">
+    <nav class="hc-footer__nav">
+        <a href="https://briandgls.github.io//about" class="hc-footer__nav-link">About Me</a>
+        <a href="https://github.com/BrianDGLS" class="hc-footer__nav-link">Github</a>
+        <a href="https://codepen.io/BrianDGLS/" class="hc-footer__nav-link">Codepen</a>
+    </nav>
+    <p class="hc-footer__brand">
+        <span class="hc-footer__year"></span> /
+        <a href="https://briandgls.github.io/" class="hc-footer__brand-link">BrianDGLS</a>
+    </p>
+    <script>
+        const $year = document.querySelector('.hc-footer__year')
+        $year.textContent = new Date().getFullYear()
+    </script>
+</footer>
+    </section>
+  </div>
+
+  <a href="#" title="back to top" rel="nofollow" tabindex="0"></a>
+
+  
+  <link rel="stylesheet" href="/prism/prism.css" async defer>
+  <script src="/prism/prism.js" async defer></script> 
+  
+
+  <script>
+    if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
       }, {once: true});
@@ -38,4 +175,8 @@ This article will explain how to handle addition with integers larger than 53 bi
           img.onload = () => img.removeAttribute('data-src');
         }
       }
-    }, {once: true});</script>
+    }, {once: true});
+  </script>
+</body>
+
+</html>

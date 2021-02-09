@@ -1,65 +1,193 @@
-<!DOCTYPE html><html lang=en><meta charset=utf-8><meta name=theme-color content=#000><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=description content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas."><link rel=manifest href=/manifest.webmanifest><link rel=mask-icon href=/favicon/safari-pinned-tab.svg color=#5bbad5><link rel=apple-touch-icon sizes=180x180 href=/favicon/apple-touch-icon.png><link rel=icon type=image/png href=/favicon/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/favicon/favicon-16x16.png sizes=16x16><link rel=canonical href=https://briandgls.github.io/2018/introducing-hypo-container/ ><title>BrianDGLS</title><meta name=description content="&lt;p&gt;A dependency injection container. Supports NodeJS and browser development.&lt;/p&gt;"><meta property=og:locale content=en_GB><meta property=og:type content=article><meta property=og:url content=https://briandgls.github.io/2018/introducing-hypo-container/ ><meta property=og:site_name content=BrianDGLS><meta property=og:title content="Introducing hypo-container - BrianDGLS"><meta property=og:description content="&lt;p&gt;A dependency injection container. Supports NodeJS and browser development.&lt;/p&gt;"><style>/****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */</style><div class=hc-top-line></div><div class="hc-layout hc-layout--page"><section class=hc-aside><div class=hc-aside__fixed><div class=hc-user-card id=js-github-user-card><img class=hc-user-card__img alt="picture of me, Brian Douglas" data-src=/images/me.jpeg><div class=hc-user-card__details><h2 class=hc-user-card__name>Brian Douglas</h2><h4 class=hc-user-card__github-username><a href=https://github.com/BrianDGLS>@BrianDGLS</a></h4><p class=hc-user-card__bio>An Irish software engineer. Focused on Javascript and the web platform.<div class=hc-user-card__links-wrap><a class=hc-user-card__link href=https://github.com/BrianDGLS/ >Github</a> <a class=hc-user-card__link href=https://codepen.io/BrianDGLS/ >Codepen</a></div></div></div></div></section><section class=hc-content><article id=article-1f7df16be2aaa9d53f93c84afa6d65d2 class=hc-article><header class=hc-article-header><time class=hc-article-header__date datetime="Mon, Jun 25, 2018">Jun 25, 2018</time><h1 class=hc-article-header__title>Introducing hypo-container</h1></header><div class=hc-article-body><p>A dependency injection container. Supports NodeJS and browser development.<p><a class=github-button href=https://github.com/briandgls/hypo-container data-size=large data-show-count=true aria-label="Star briandgls/hypo-container on GitHub">Star</a><h2 id=install>Install</h2><p>NPM:<pre><code>npm install --save hypo-container
-</code></pre><p>Yarn:<pre><code>yarn add hypo-container
-</code></pre><h2 id=usage>Usage</h2><p>To create a container create a new instance of the <code>Container</code> class.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>import</span> { <span style=color:#a6e22e>Container</span> } <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;hypo-container&#39;</span>
+<!DOCTYPE html>
+<html lang="en">
 
-<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>container</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Container</span>()
-</code></pre></div><p>A container has two types of dependencies. These are known as <strong>services</strong> and <strong>parameters</strong>.<h2 id=defining-a-service>Defining a service</h2><p>A service is an object that does something as part of a larger system. Examples of services: a database connection, a templating engine, or a mailer. Almost any global object can be a service.<p>Services are defined using a callback function that returns an instance of an object.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>container</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Container</span>()
+<head>
+  <meta charset="utf-8">
+<meta name="theme-color" content="#000">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="description" content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas.">
 
-<span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;owner&#39;</span>, <span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> {
-  <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Person</span>(<span style=color:#e6db74>&#39;Brian&#39;</span>, <span style=color:#ae81ff>26</span>)
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
+
+<link rel="canonical" href="https://briandgls.github.io/2018/introducing-hypo-container/">
+
+  <title>BrianDGLS</title>
+
+  
+  <meta name="description" content="&lt;p&gt;A dependency injection container. Supports NodeJS and browser development.&lt;/p&gt;">
+
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://briandgls.github.io/2018/introducing-hypo-container/">
+<meta property="og:site_name" content="BrianDGLS">
+<meta property="og:title" content="Introducing hypo-container - BrianDGLS">
+<meta property="og:description" content="&lt;p&gt;A dependency injection container. Supports NodeJS and browser development.&lt;/p&gt;">
+
+
+  <style>
+    /****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */
+  </style>
+</head>
+
+<body>
+  <div class="hc-top-line"></div>
+  <div class="hc-layout hc-layout--page">
+    <section class="hc-aside">
+      <div class="hc-aside__fixed">
+        <div class="hc-user-card" id="js-github-user-card">
+  <img class="hc-user-card__img" alt="picture of me, Brian Douglas" data-src="/images/me.jpeg">
+  <div class="hc-user-card__details">
+    <h2 class="hc-user-card__name">Brian Douglas</h2>
+    <h4 class="hc-user-card__github-username">
+      <a href="https://github.com/BrianDGLS">@BrianDGLS</a>
+    </h4>
+    <p class="hc-user-card__bio">An Irish software engineer. Focused on Javascript and the web platform.</p>
+    <div class="hc-user-card__links-wrap">
+      <a class="hc-user-card__link" href="https://github.com/BrianDGLS/">Github</a>
+      <a class="hc-user-card__link" href="https://codepen.io/BrianDGLS/">Codepen</a>
+    </div>
+  </div>
+</div>
+      </div>
+    </section>
+
+    <section class="hc-content">
+      
+<article id="article-1f7df16be2aaa9d53f93c84afa6d65d2" class="hc-article">
+  <header class="hc-article-header">
+    <time class="hc-article-header__date" datetime="Mon, Jun 25, 2018">Jun 25, 2018</time>
+    <h1 class="hc-article-header__title">Introducing hypo-container</h1>
+  </header>
+
+  <div class="hc-article-body"><p>A dependency injection container. Supports NodeJS and browser development.</p>
+<p><a class="github-button" href="https://github.com/briandgls/hypo-container" data-size="large" data-show-count="true" aria-label="Star briandgls/hypo-container on GitHub">Star</a></p>
+<h2 id="install">Install</h2>
+<p>NPM:</p>
+<pre><code>npm install --save hypo-container
+</code></pre><p>Yarn:</p>
+<pre><code>yarn add hypo-container
+</code></pre><h2 id="usage">Usage</h2>
+<p>To create a container create a new instance of the <code>Container</code> class.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Container</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;hypo-container&#39;</span>
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">container</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Container</span>()
+</code></pre></div><p>A container has two types of dependencies. These are known as <strong>services</strong> and <strong>parameters</strong>.</p>
+<h2 id="defining-a-service">Defining a service</h2>
+<p>A service is an object that does something as part of a larger system. Examples of services: a database connection, a templating engine, or a mailer. Almost any global object can be a service.</p>
+<p>Services are defined using a callback function that returns an instance of an object.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">container</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Container</span>()
+
+<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;owner&#39;</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Person</span>(<span style="color:#e6db74">&#39;Brian&#39;</span>, <span style="color:#ae81ff">26</span>)
 })
 
-<span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;cat&#39;</span>, <span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> {
-  <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Cat</span>(<span style=color:#e6db74>&#39;Garfield&#39;</span>, <span style=color:#ae81ff>4</span>, <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;owner&#39;</span>))
+<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;cat&#39;</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Cat</span>(<span style="color:#e6db74">&#39;Garfield&#39;</span>, <span style="color:#ae81ff">4</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;owner&#39;</span>))
 })
-</code></pre></div><p>Alternatively calls to the <code>register()</code> method can be chained, as demonstrated below.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#a6e22e>container</span>
-  .<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;owner&#39;</span>, <span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Person</span>(<span style=color:#e6db74>&#39;Brian&#39;</span>, <span style=color:#ae81ff>26</span>))
-  .<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;cat&#39;</span>, <span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Cat</span>(<span style=color:#e6db74>&#39;Garfield&#39;</span>, <span style=color:#ae81ff>4</span>, <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;owner&#39;</span>)))
-</code></pre></div><p>Note that the callback has access to the current container&rsquo;s instance, via it&rsquo;s first argument. This allows you to reference other contained services and parameters when defining a new service.<p>Objects are created only when they are first accessed via the <code>get()</code> method, so order is not important. Using a defined service is very easy as demonstrated below.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>cat</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;cat&#39;</span>)
-</code></pre></div><p>The above is roughly equivalent to the following.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>cat</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Cat</span>(<span style=color:#e6db74>&#39;Garfield&#39;</span>, <span style=color:#ae81ff>4</span>, <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Person</span>(<span style=color:#e6db74>&#39;Brian&#39;</span>, <span style=color:#ae81ff>26</span>))
-</code></pre></div><h2 id=defining-a-factory-service>Defining a factory service</h2><p>By default the same instance of a service is returned when calling the container&rsquo;s <code>get()</code> method. If you want to return a new instance of the service you can make use of the container&rsquo;s <code>factory()</code> method as demonstrated below.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;uniqueRobot&#39;</span>, <span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>factory</span>(<span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> {
-  <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Robot</span>()
+</code></pre></div><p>Alternatively calls to the <code>register()</code> method can be chained, as demonstrated below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#a6e22e">container</span>
+  .<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;owner&#39;</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Person</span>(<span style="color:#e6db74">&#39;Brian&#39;</span>, <span style="color:#ae81ff">26</span>))
+  .<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;cat&#39;</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Cat</span>(<span style="color:#e6db74">&#39;Garfield&#39;</span>, <span style="color:#ae81ff">4</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;owner&#39;</span>)))
+</code></pre></div><p>Note that the callback has access to the current container&rsquo;s instance, via it&rsquo;s first argument.
+This allows you to reference other contained services and parameters when defining a new service.</p>
+<p>Objects are created only when they are first accessed via the <code>get()</code> method, so order is not important.
+Using a defined service is very easy as demonstrated below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;cat&#39;</span>)
+</code></pre></div><p>The above is roughly equivalent to the following.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Cat</span>(<span style="color:#e6db74">&#39;Garfield&#39;</span>, <span style="color:#ae81ff">4</span>, <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Person</span>(<span style="color:#e6db74">&#39;Brian&#39;</span>, <span style="color:#ae81ff">26</span>))
+</code></pre></div><h2 id="defining-a-factory-service">Defining a factory service</h2>
+<p>By default the same instance of a service is returned when calling the container&rsquo;s <code>get()</code> method. If you want to return a new instance of the service you can make use of the container&rsquo;s <code>factory()</code> method as demonstrated below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;uniqueRobot&#39;</span>, <span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">factory</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Robot</span>()
 }))
 
-<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>uniqueRobot</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;uniqueRobot&#39;</span>)
-</code></pre></div><h2 id=defining-parameters>Defining parameters</h2><p>Defining a parameter allows for easy configuration of your container from the outside and to store global values.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>myName</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Brian&#39;</span>
-<span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>myAge</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>26</span>
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">uniqueRobot</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;uniqueRobot&#39;</span>)
+</code></pre></div><h2 id="defining-parameters">Defining parameters</h2>
+<p>Defining a parameter allows for easy configuration of your container from the outside and to store global values.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">myName</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Brian&#39;</span>
+<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">myAge</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">26</span>
 
-<span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;me&#39;</span>, <span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> {
-  <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Person</span>(<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>myName</span>, <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>myAge</span>)
+<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;me&#39;</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Person</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">myName</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">myAge</span>)
 })
-</code></pre></div><h2 id=protecting-parameters>Protecting parameters</h2><p>To use an anonymous function to define a parameter use the <code>protect()</code> container method.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#a6e22e>container</span>[<span style=color:#e6db74>&#39;prop&#39;</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>42</span>
+</code></pre></div><h2 id="protecting-parameters">Protecting parameters</h2>
+<p>To use an anonymous function to define a parameter use the <code>protect()</code> container method.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#a6e22e">container</span>[<span style="color:#e6db74">&#39;prop&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>
 
-<span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;protected_prop&#39;</span>, <span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>protect</span>(<span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> {
-  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>prop</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span>
+<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;protected_prop&#39;</span>, <span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">protect</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">prop</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>
 }))
-</code></pre></div><h2 id=update-a-registered-service>Update a registered service</h2><p>In some cases you may want to modify a service definition after it has been defined. You can use the <code>extend()</code> method to define additional code to be run on your service just after it is created.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;cat&#39;</span>, <span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> {
-  <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Cat</span>(<span style=color:#e6db74>&#39;Garfield&#39;</span>, <span style=color:#ae81ff>4</span>, <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;owner&#39;</span>))
+</code></pre></div><h2 id="update-a-registered-service">Update a registered service</h2>
+<p>In some cases you may want to modify a service definition after it has been defined. You can use the <code>extend()</code> method to define additional code to be run on your service just after it is created.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;cat&#39;</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Cat</span>(<span style="color:#e6db74">&#39;Garfield&#39;</span>, <span style="color:#ae81ff">4</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;owner&#39;</span>))
 })
 
-<span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>extend</span>(<span style=color:#e6db74>&#39;cat&#39;</span>, (<span style=color:#a6e22e>storage</span>, <span style=color:#a6e22e>c</span>) <span style=color:#f92672>=&gt;</span> {
-  <span style=color:#a6e22e>storage</span>.<span style=color:#a6e22e>details</span> <span style=color:#f92672>=</span> () <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>`</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>storage</span>.<span style=color:#a6e22e>name</span><span style=color:#e6db74>}</span><span style=color:#e6db74> - </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>storage</span>.<span style=color:#a6e22e>age</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>
-  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>storage</span>
+<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">extend</span>(<span style="color:#e6db74">&#39;cat&#39;</span>, (<span style="color:#a6e22e">storage</span>, <span style="color:#a6e22e">c</span>) <span style="color:#f92672">=&gt;</span> {
+  <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">details</span> <span style="color:#f92672">=</span> () <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> - </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">age</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">storage</span>
 })
-</code></pre></div><p>The first argument is the name of the service to extend, the second a function that gets access to the object instance and the container.<h2 id=extend-a-container>Extend a container</h2><p>If you use the same libraries over and over, you might want to reuse some services from one project to the next one. You can easily extend a container by registering it to another.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>app</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Container</span>()
+</code></pre></div><p>The first argument is the name of the service to extend, the second a function that gets access to the object instance and the container.</p>
+<h2 id="extend-a-container">Extend a container</h2>
+<p>If you use the same libraries over and over, you might want to reuse some services from one project to the next one.
+You can easily extend a container by registering it to another.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Container</span>()
 
-<span style=color:#a6e22e>app</span>[<span style=color:#e6db74>&#39;name&#39;</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;My Awesome App&#39;</span>
+<span style="color:#a6e22e">app</span>[<span style="color:#e6db74">&#39;name&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;My Awesome App&#39;</span>
 
-<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>serviceContainer</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Container</span>()
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">serviceContainer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Container</span>()
 
-<span style=color:#a6e22e>serviceContainer</span>.<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;magicNumberService&#39;</span>, <span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> {
-  <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>MagicNumber</span>()
+<span style="color:#a6e22e">serviceContainer</span>.<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;magicNumberService&#39;</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MagicNumber</span>()
 })
 
-<span style=color:#a6e22e>app</span>.<span style=color:#a6e22e>register</span>(<span style=color:#a6e22e>serviceContainer</span>)
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">register</span>(<span style="color:#a6e22e">serviceContainer</span>)
 
-<span style=color:#a6e22e>app</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;magicNumberService&#39;</span>)
-</code></pre></div><h2 id=get-the-service-creation-function>Get the service creation function</h2><p>When accessing a service, the container automatically calls the function used to supply the service. This creates an instance of that service. If you want to get access to this function, use the <code>raw()</code> method.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;robot&#39;</span>, <span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Robot</span>())
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;magicNumberService&#39;</span>)
+</code></pre></div><h2 id="get-the-service-creation-function">Get the service creation function</h2>
+<p>When accessing a service, the container automatically calls the function used to supply the service. This creates an instance of that service. If you want to get access to this function, use the <code>raw()</code> method.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;robot&#39;</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Robot</span>())
 
-<span style=color:#75715e>// wraps previously defined robot method to create a factory method
-</span><span style=color:#75715e></span><span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>register</span>(<span style=color:#e6db74>&#39;uniqueRobot&#39;</span>, <span style=color:#a6e22e>container</span>.<span style=color:#a6e22e>factory</span>(<span style=color:#a6e22e>c</span> <span style=color:#f92672>=&gt;</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>raw</span>(<span style=color:#e6db74>&#39;robot&#39;</span>)))
-</code></pre></div><h2 id=thanks>Thanks</h2><p>Special thanks to the creators and maintainers of <a href=https://pimple.symfony.com/ >Pimple</a>. Hypo attempts to follow the Pimple api for ease of use and familiarity. The Hypo docs also attempt to match that of the Pimple docs.</p><script async defer src=https://buttons.github.io/buttons.js></script></div></article><footer class=hc-footer><nav class=hc-footer__nav><a href=https://briandgls.github.io//about class=hc-footer__nav-link>About Me</a> <a href=https://github.com/BrianDGLS class=hc-footer__nav-link>Github</a> <a href=https://codepen.io/BrianDGLS/ class=hc-footer__nav-link>Codepen</a></nav><p class=hc-footer__brand><span class=hc-footer__year></span> / <a href=https://briandgls.github.io/ class=hc-footer__brand-link>BrianDGLS</a></p><script>const $year = document.querySelector('.hc-footer__year')
-        $year.textContent = new Date().getFullYear()</script></footer></section></div><a href=# title="back to top" rel=nofollow tabindex=0></a><link rel=stylesheet href=/prism/prism.css async defer><script src=/prism/prism.js async defer></script><script>if ('serviceWorker' in navigator) {
+<span style="color:#75715e">// wraps previously defined robot method to create a factory method
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">register</span>(<span style="color:#e6db74">&#39;uniqueRobot&#39;</span>, <span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">factory</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">raw</span>(<span style="color:#e6db74">&#39;robot&#39;</span>)))
+</code></pre></div><h2 id="thanks">Thanks</h2>
+<p>Special thanks to the creators and maintainers of <a href="https://pimple.symfony.com/">Pimple</a>.
+Hypo attempts to follow the Pimple api for ease of use and familiarity.
+The Hypo docs also attempt to match that of the Pimple docs.</p>
+<script async defer src="https://buttons.github.io/buttons.js"></script></div>
+</article>
+
+      <footer class="hc-footer">
+    <nav class="hc-footer__nav">
+        <a href="https://briandgls.github.io//about" class="hc-footer__nav-link">About Me</a>
+        <a href="https://github.com/BrianDGLS" class="hc-footer__nav-link">Github</a>
+        <a href="https://codepen.io/BrianDGLS/" class="hc-footer__nav-link">Codepen</a>
+    </nav>
+    <p class="hc-footer__brand">
+        <span class="hc-footer__year"></span> /
+        <a href="https://briandgls.github.io/" class="hc-footer__brand-link">BrianDGLS</a>
+    </p>
+    <script>
+        const $year = document.querySelector('.hc-footer__year')
+        $year.textContent = new Date().getFullYear()
+    </script>
+</footer>
+    </section>
+  </div>
+
+  <a href="#" title="back to top" rel="nofollow" tabindex="0"></a>
+
+  
+  <link rel="stylesheet" href="/prism/prism.css" async defer>
+  <script src="/prism/prism.js" async defer></script> 
+  
+
+  <script>
+    if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
       }, {once: true});
@@ -73,4 +201,8 @@
           img.onload = () => img.removeAttribute('data-src');
         }
       }
-    }, {once: true});</script>
+    }, {once: true});
+  </script>
+</body>
+
+</html>

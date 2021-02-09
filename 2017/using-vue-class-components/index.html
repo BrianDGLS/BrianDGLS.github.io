@@ -1,66 +1,198 @@
-<!DOCTYPE html><html lang=en><meta charset=utf-8><meta name=theme-color content=#000><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=description content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas."><link rel=manifest href=/manifest.webmanifest><link rel=mask-icon href=/favicon/safari-pinned-tab.svg color=#5bbad5><link rel=apple-touch-icon sizes=180x180 href=/favicon/apple-touch-icon.png><link rel=icon type=image/png href=/favicon/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/favicon/favicon-16x16.png sizes=16x16><link rel=canonical href=https://briandgls.github.io/2017/using-vue-class-components/ ><title>BrianDGLS</title><meta name=description content="&lt;p&gt;The &lt;a href=&#34;https://github.com/vuejs/vue-class-component&#34;&gt;Vue Class Component&lt;/a&gt; module provides a component decorator which can inject properties into &lt;a href=&#34;https://github.com/vuejs/vue&#34;&gt;Vue&lt;/a&gt; components.
-This allows developers to create components which make use of javascript&amp;rsquo;s natural language constructs.
-The more native syntax helps with readability and developer understanding.
-Which ultimately contributes to maintainability.&lt;/p&gt;"><meta property=og:locale content=en_GB><meta property=og:type content=article><meta property=og:url content=https://briandgls.github.io/2017/using-vue-class-components/ ><meta property=og:site_name content=BrianDGLS><meta property=og:title content="Using Vue Class Components - BrianDGLS"><meta property=og:description content="&lt;p&gt;The &lt;a href=&#34;https://github.com/vuejs/vue-class-component&#34;&gt;Vue Class Component&lt;/a&gt; module provides a component decorator which can inject properties into &lt;a href=&#34;https://github.com/vuejs/vue&#34;&gt;Vue&lt;/a&gt; components.
-This allows developers to create components which make use of javascript&amp;rsquo;s natural language constructs.
-The more native syntax helps with readability and developer understanding.
-Which ultimately contributes to maintainability.&lt;/p&gt;"><style>/****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */</style><div class=hc-top-line></div><div class="hc-layout hc-layout--page"><section class=hc-aside><div class=hc-aside__fixed><div class=hc-user-card id=js-github-user-card><img class=hc-user-card__img alt="picture of me, Brian Douglas" data-src=/images/me.jpeg><div class=hc-user-card__details><h2 class=hc-user-card__name>Brian Douglas</h2><h4 class=hc-user-card__github-username><a href=https://github.com/BrianDGLS>@BrianDGLS</a></h4><p class=hc-user-card__bio>An Irish software engineer. Focused on Javascript and the web platform.<div class=hc-user-card__links-wrap><a class=hc-user-card__link href=https://github.com/BrianDGLS/ >Github</a> <a class=hc-user-card__link href=https://codepen.io/BrianDGLS/ >Codepen</a></div></div></div></div></section><section class=hc-content><article id=article-502b2a56760c48d041b7e90b04abbde7 class=hc-article><header class=hc-article-header><time class=hc-article-header__date datetime="Mon, May 22, 2017">May 22, 2017</time><h1 class=hc-article-header__title>Using Vue Class Components</h1></header><div class=hc-article-body><p>The <a href=https://github.com/vuejs/vue-class-component>Vue Class Component</a> module provides a component decorator which can inject properties into <a href=https://github.com/vuejs/vue>Vue</a> components. This allows developers to create components which make use of javascript&rsquo;s natural language constructs. The more native syntax helps with readability and developer understanding. Which ultimately contributes to maintainability.<blockquote><p>This article will explain the basic usage of Vue class components. The article has been written with Vue 2 in mind.</blockquote><h2 id=example-components>Example Components</h2><p>Let&rsquo;s say we have a simple Vue <em>greeter</em> component. This component will greet a user when they land on our webpage. Using the standard Vue syntax this component may look like the following example.<div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>import</span> <span style=color:#a6e22e>Vue</span> <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#34;vue&#34;</span>;
+<!DOCTYPE html>
+<html lang="en">
 
-<span style=color:#a6e22e>Vue</span>.<span style=color:#a6e22e>component</span>(<span style=color:#e6db74>&#34;greeter&#34;</span>, {
-  <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>require</span>(<span style=color:#e6db74>&#34;./greeter.html&#34;</span>),
-  <span style=color:#a6e22e>props</span><span style=color:#f92672>:</span> { <span style=color:#a6e22e>propMessage</span><span style=color:#f92672>:</span> String },
-  <span style=color:#a6e22e>computed</span><span style=color:#f92672>:</span> {
-    <span style=color:#a6e22e>computedMessage</span>() {
-      <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;computed &#34;</span> <span style=color:#f92672>+</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>msg</span>;
+<head>
+  <meta charset="utf-8">
+<meta name="theme-color" content="#000">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="description" content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas.">
+
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
+
+<link rel="canonical" href="https://briandgls.github.io/2017/using-vue-class-components/">
+
+  <title>BrianDGLS</title>
+
+  
+  <meta name="description" content="&lt;p&gt;The &lt;a href=&#34;https://github.com/vuejs/vue-class-component&#34;&gt;Vue Class Component&lt;/a&gt; module provides a component decorator which can inject properties into &lt;a href=&#34;https://github.com/vuejs/vue&#34;&gt;Vue&lt;/a&gt; components.
+This allows developers to create components which make use of javascript&amp;rsquo;s natural language constructs.
+The more native syntax helps with readability and developer understanding.
+Which ultimately contributes to maintainability.&lt;/p&gt;">
+
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://briandgls.github.io/2017/using-vue-class-components/">
+<meta property="og:site_name" content="BrianDGLS">
+<meta property="og:title" content="Using Vue Class Components - BrianDGLS">
+<meta property="og:description" content="&lt;p&gt;The &lt;a href=&#34;https://github.com/vuejs/vue-class-component&#34;&gt;Vue Class Component&lt;/a&gt; module provides a component decorator which can inject properties into &lt;a href=&#34;https://github.com/vuejs/vue&#34;&gt;Vue&lt;/a&gt; components.
+This allows developers to create components which make use of javascript&amp;rsquo;s natural language constructs.
+The more native syntax helps with readability and developer understanding.
+Which ultimately contributes to maintainability.&lt;/p&gt;">
+
+
+  <style>
+    /****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */
+  </style>
+</head>
+
+<body>
+  <div class="hc-top-line"></div>
+  <div class="hc-layout hc-layout--page">
+    <section class="hc-aside">
+      <div class="hc-aside__fixed">
+        <div class="hc-user-card" id="js-github-user-card">
+  <img class="hc-user-card__img" alt="picture of me, Brian Douglas" data-src="/images/me.jpeg">
+  <div class="hc-user-card__details">
+    <h2 class="hc-user-card__name">Brian Douglas</h2>
+    <h4 class="hc-user-card__github-username">
+      <a href="https://github.com/BrianDGLS">@BrianDGLS</a>
+    </h4>
+    <p class="hc-user-card__bio">An Irish software engineer. Focused on Javascript and the web platform.</p>
+    <div class="hc-user-card__links-wrap">
+      <a class="hc-user-card__link" href="https://github.com/BrianDGLS/">Github</a>
+      <a class="hc-user-card__link" href="https://codepen.io/BrianDGLS/">Codepen</a>
+    </div>
+  </div>
+</div>
+      </div>
+    </section>
+
+    <section class="hc-content">
+      
+<article id="article-502b2a56760c48d041b7e90b04abbde7" class="hc-article">
+  <header class="hc-article-header">
+    <time class="hc-article-header__date" datetime="Mon, May 22, 2017">May 22, 2017</time>
+    <h1 class="hc-article-header__title">Using Vue Class Components</h1>
+  </header>
+
+  <div class="hc-article-body"><p>The <a href="https://github.com/vuejs/vue-class-component">Vue Class Component</a> module provides a component decorator which can inject properties into <a href="https://github.com/vuejs/vue">Vue</a> components.
+This allows developers to create components which make use of javascript&rsquo;s natural language constructs.
+The more native syntax helps with readability and developer understanding.
+Which ultimately contributes to maintainability.</p>
+<blockquote>
+<p>This article will explain the basic usage of Vue class components.
+The article has been written with Vue 2 in mind.</p>
+</blockquote>
+<h2 id="example-components">Example Components</h2>
+<p>Let&rsquo;s say we have a simple Vue <em>greeter</em> component.
+This component will greet a user when they land on our webpage.
+Using the standard Vue syntax this component may look like the following example.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vue</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue&#34;</span>;
+
+<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">component</span>(<span style="color:#e6db74">&#34;greeter&#34;</span>, {
+  <span style="color:#a6e22e">template</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;./greeter.html&#34;</span>),
+  <span style="color:#a6e22e">props</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">propMessage</span><span style="color:#f92672">:</span> String },
+  <span style="color:#a6e22e">computed</span><span style="color:#f92672">:</span> {
+    <span style="color:#a6e22e">computedMessage</span>() {
+      <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;computed &#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">msg</span>;
     }
   },
-  <span style=color:#a6e22e>methods</span><span style=color:#f92672>:</span> {
-    <span style=color:#a6e22e>greet</span>() {
-      <span style=color:#a6e22e>alert</span>(<span style=color:#e6db74>&#34;greeting: &#34;</span> <span style=color:#f92672>+</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>msg</span>);
+  <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
+    <span style="color:#a6e22e">greet</span>() {
+      <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;greeting: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">msg</span>);
     }
   },
-  <span style=color:#a6e22e>mounted</span>() {
-    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>greet</span>();
+  <span style="color:#a6e22e">mounted</span>() {
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">greet</span>();
   },
-  <span style=color:#a6e22e>data</span>() {
-    <span style=color:#66d9ef>return</span> {
-      <span style=color:#a6e22e>msg</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>123</span>,
-      <span style=color:#a6e22e>helloMsg</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Hello, &#34;</span> <span style=color:#f92672>+</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>propMessage</span>
+  <span style="color:#a6e22e">data</span>() {
+    <span style="color:#66d9ef">return</span> {
+      <span style="color:#a6e22e">msg</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">123</span>,
+      <span style="color:#a6e22e">helloMsg</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Hello, &#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">propMessage</span>
     };
   }
 });
-</code></pre></div><p>The above uses Vue&rsquo;s <code>Vue.component</code> function to create a Vue component. The first argument is the component&rsquo;s name the second is the component&rsquo;s config object. In the example two special functions <code>mounted</code> and <code>data</code> are attached directly to the inserted object. User defined methods are assigned to the <code>methods</code> object and computed properties are added to the <code>computed</code> object. The object returned from the data function is then treated as the component&rsquo;s state which inherits any properties added to the <code>props</code> object. It&rsquo;s important to note that the component&rsquo;s <code>name</code>, <code>template</code>, and <code>props</code> will not change once the component has been created. Non-changing properties like these will be defined inside the <code>@Component()</code> decorator in the example below.<p>In the Vue class component below both the special methods and user defined methods are added directly to the component class. Computed properties use the ECMAScript <code>get</code> and <code>set</code> language constructs. This provides a more natural way of using computed properties.<p>The <code>data</code> function is not used in the class component. The reason for this is that the properties that would have been returned from the <code>data</code> function can be added directly to the class. This is a more native way of assigning properties, as properties are accessed via the <code>this</code> keyword in Vue.<p>For a javascript developer looking at the first example it would not be immediately apparent that the properties of the object returned from the <code>data</code> function could be accessed via the <code>this</code> keyword. In the below example however the javascript&rsquo;s natural constructs are used. Meaning that a knowledge of the Vue framework is not immediately required to understand this component.<blockquote><p>The example below is taken from the Vue Class Component docs, found <a href=https://github.com/vuejs/vue-class-component#example>here</a>.</blockquote><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=color:#66d9ef>import</span> <span style=color:#a6e22e>Vue</span> <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#34;vue&#34;</span>;
-<span style=color:#66d9ef>import</span> <span style=color:#a6e22e>Component</span> <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#34;vue-class-component&#34;</span>;
+</code></pre></div><p>The above uses Vue&rsquo;s <code>Vue.component</code> function to create a Vue component.
+The first argument is the component&rsquo;s name the second is the component&rsquo;s config object.
+In the example two special functions <code>mounted</code> and <code>data</code> are attached directly to the inserted object.
+User defined methods are assigned to the <code>methods</code> object and computed properties are added to the <code>computed</code> object.
+The object returned from the data function is then treated as the component&rsquo;s state which inherits any properties added to the <code>props</code> object.
+It&rsquo;s important to note that the component&rsquo;s <code>name</code>, <code>template</code>, and <code>props</code> will not change once the component has been created.
+Non-changing properties like these will be defined inside the <code>@Component()</code> decorator in the example below.</p>
+<p>In the Vue class component below both the special methods and user defined methods are added directly to the component class.
+Computed properties use the ECMAScript <code>get</code> and <code>set</code> language constructs.
+This provides a more natural way of using computed properties.</p>
+<p>The <code>data</code> function is not used in the class component.
+The reason for this is that the properties that would have been returned from the <code>data</code> function can be added directly to the class.
+This is a more native way of assigning properties, as properties are accessed via the <code>this</code> keyword in Vue.</p>
+<p>For a javascript developer looking at the first example it would not be immediately
+apparent that the properties of the object returned from the <code>data</code> function could be accessed via the <code>this</code> keyword.
+In the below example however the javascript&rsquo;s natural constructs are used.
+Meaning that a knowledge of the Vue framework is not immediately required to understand this component.</p>
+<blockquote>
+<p>The example below is taken from the Vue Class Component docs, found <a href="https://github.com/vuejs/vue-class-component#example">here</a>.</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vue</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue&#34;</span>;
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Component</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue-class-component&#34;</span>;
 
-<span style=color:#960050;background-color:#1e0010>@</span><span style=color:#a6e22e>Component</span>({
-  <span style=color:#a6e22e>name</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;greeter&#34;</span>,
-  <span style=color:#a6e22e>template</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>require</span>(<span style=color:#e6db74>&#34;./greeter.html&#34;</span>),
-  <span style=color:#a6e22e>props</span><span style=color:#f92672>:</span> { <span style=color:#a6e22e>propMessage</span><span style=color:#f92672>:</span> String }
+<span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">Component</span>({
+  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;greeter&#34;</span>,
+  <span style="color:#a6e22e">template</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;./greeter.html&#34;</span>),
+  <span style="color:#a6e22e">props</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">propMessage</span><span style="color:#f92672">:</span> String }
 })
-<span style=color:#66d9ef>export</span> <span style=color:#66d9ef>default</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>App</span> <span style=color:#66d9ef>extends</span> <span style=color:#a6e22e>Vue</span> {
-  <span style=color:#75715e>// initial data
-</span><span style=color:#75715e></span>  <span style=color:#a6e22e>msg</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>123</span>;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">App</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">Vue</span> {
+  <span style="color:#75715e">// initial data
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">msg</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">123</span>;
 
-  <span style=color:#75715e>// use prop values for initial data
-</span><span style=color:#75715e></span>  <span style=color:#a6e22e>helloMsg</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Hello, &#34;</span> <span style=color:#f92672>+</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>propMessage</span>;
+  <span style="color:#75715e">// use prop values for initial data
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">helloMsg</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello, &#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">propMessage</span>;
 
-  <span style=color:#75715e>// lifecycle hook
-</span><span style=color:#75715e></span>  <span style=color:#a6e22e>mounted</span>() {
-    <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>greet</span>();
+  <span style="color:#75715e">// lifecycle hook
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">mounted</span>() {
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">greet</span>();
   }
 
-  <span style=color:#75715e>// computed
-</span><span style=color:#75715e></span>  <span style=color:#a6e22e>get</span> <span style=color:#a6e22e>computedMsg</span>() {
-    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;computed &#34;</span> <span style=color:#f92672>+</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>msg</span>;
+  <span style="color:#75715e">// computed
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">get</span> <span style="color:#a6e22e">computedMsg</span>() {
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;computed &#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">msg</span>;
   }
 
-  <span style=color:#75715e>// method
-</span><span style=color:#75715e></span>  <span style=color:#a6e22e>greet</span>() {
-    <span style=color:#a6e22e>alert</span>(<span style=color:#e6db74>&#34;greeting: &#34;</span> <span style=color:#f92672>+</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>msg</span>);
+  <span style="color:#75715e">// method
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">greet</span>() {
+    <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;greeting: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">msg</span>);
   }
 }
-</code></pre></div><h2 id=summary>Summary</h2><p>The <a href=https://github.com/vuejs/vue-class-component>Vue Class Component</a> module allows developers to write Vue components which make more use of javascript&rsquo;s builtin features. This offers a number of advantages when creating Vue applications. It means that developers which have an understanding of javascript and not Vue are more likely to understand what is going on in the app&rsquo;s code.<p>As stated above not only does this help with readability but it also contributes to maintainability and developer onboarding.</div></article><footer class=hc-footer><nav class=hc-footer__nav><a href=https://briandgls.github.io//about class=hc-footer__nav-link>About Me</a> <a href=https://github.com/BrianDGLS class=hc-footer__nav-link>Github</a> <a href=https://codepen.io/BrianDGLS/ class=hc-footer__nav-link>Codepen</a></nav><p class=hc-footer__brand><span class=hc-footer__year></span> / <a href=https://briandgls.github.io/ class=hc-footer__brand-link>BrianDGLS</a></p><script>const $year = document.querySelector('.hc-footer__year')
-        $year.textContent = new Date().getFullYear()</script></footer></section></div><a href=# title="back to top" rel=nofollow tabindex=0></a><link rel=stylesheet href=/prism/prism.css async defer><script src=/prism/prism.js async defer></script><script>if ('serviceWorker' in navigator) {
+</code></pre></div><h2 id="summary">Summary</h2>
+<p>The <a href="https://github.com/vuejs/vue-class-component">Vue Class Component</a> module allows developers to write Vue components which
+make more use of javascript&rsquo;s builtin features.
+This offers a number of advantages when creating Vue applications.
+It means that developers which have an understanding of javascript and not Vue are more likely to understand
+what is going on in the app&rsquo;s code.</p>
+<p>As stated above not only does this help with readability but it also contributes to maintainability
+and developer onboarding.</p></div>
+</article>
+
+      <footer class="hc-footer">
+    <nav class="hc-footer__nav">
+        <a href="https://briandgls.github.io//about" class="hc-footer__nav-link">About Me</a>
+        <a href="https://github.com/BrianDGLS" class="hc-footer__nav-link">Github</a>
+        <a href="https://codepen.io/BrianDGLS/" class="hc-footer__nav-link">Codepen</a>
+    </nav>
+    <p class="hc-footer__brand">
+        <span class="hc-footer__year"></span> /
+        <a href="https://briandgls.github.io/" class="hc-footer__brand-link">BrianDGLS</a>
+    </p>
+    <script>
+        const $year = document.querySelector('.hc-footer__year')
+        $year.textContent = new Date().getFullYear()
+    </script>
+</footer>
+    </section>
+  </div>
+
+  <a href="#" title="back to top" rel="nofollow" tabindex="0"></a>
+
+  
+  <link rel="stylesheet" href="/prism/prism.css" async defer>
+  <script src="/prism/prism.js" async defer></script> 
+  
+
+  <script>
+    if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
       }, {once: true});
@@ -74,4 +206,8 @@ Which ultimately contributes to maintainability.&lt;/p&gt;"><style>/************
           img.onload = () => img.removeAttribute('data-src');
         }
       }
-    }, {once: true});</script>
+    }, {once: true});
+  </script>
+</body>
+
+</html>

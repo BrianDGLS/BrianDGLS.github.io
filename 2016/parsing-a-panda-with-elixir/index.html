@@ -1,94 +1,256 @@
-<!DOCTYPE html><html lang=en><meta charset=utf-8><meta name=theme-color content=#000><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=description content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas."><link rel=manifest href=/manifest.webmanifest><link rel=mask-icon href=/favicon/safari-pinned-tab.svg color=#5bbad5><link rel=apple-touch-icon sizes=180x180 href=/favicon/apple-touch-icon.png><link rel=icon type=image/png href=/favicon/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/favicon/favicon-16x16.png sizes=16x16><link rel=canonical href=https://briandgls.github.io/2016/parsing-a-panda-with-elixir/ ><title>BrianDGLS</title><meta name=description content="&lt;p&gt;I attended the first Edinburgh Elixir meet-up on Monday.
-It was a great social event with around ~20 attendees.
-Most of which were first time Elixir users.&lt;/p&gt;"><meta property=og:locale content=en_GB><meta property=og:type content=article><meta property=og:url content=https://briandgls.github.io/2016/parsing-a-panda-with-elixir/ ><meta property=og:site_name content=BrianDGLS><meta property=og:title content="Parsing a Panda With Elixir - BrianDGLS"><meta property=og:description content="&lt;p&gt;I attended the first Edinburgh Elixir meet-up on Monday.
-It was a great social event with around ~20 attendees.
-Most of which were first time Elixir users.&lt;/p&gt;"><style>/****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */</style><div class=hc-top-line></div><div class="hc-layout hc-layout--page"><section class=hc-aside><div class=hc-aside__fixed><div class=hc-user-card id=js-github-user-card><img class=hc-user-card__img alt="picture of me, Brian Douglas" data-src=/images/me.jpeg><div class=hc-user-card__details><h2 class=hc-user-card__name>Brian Douglas</h2><h4 class=hc-user-card__github-username><a href=https://github.com/BrianDGLS>@BrianDGLS</a></h4><p class=hc-user-card__bio>An Irish software engineer. Focused on Javascript and the web platform.<div class=hc-user-card__links-wrap><a class=hc-user-card__link href=https://github.com/BrianDGLS/ >Github</a> <a class=hc-user-card__link href=https://codepen.io/BrianDGLS/ >Codepen</a></div></div></div></div></section><section class=hc-content><article id=article-933d660f0b0491f29692c658cd53d2dd class=hc-article><header class=hc-article-header><time class=hc-article-header__date datetime="Wed, Nov 9, 2016">Nov 9, 2016</time><h1 class=hc-article-header__title>Parsing a Panda With Elixir</h1></header><div class=hc-article-body><p>I attended the first Edinburgh Elixir meet-up on Monday. It was a great social event with around ~20 attendees. Most of which were first time Elixir users.<p>We started off with a stand up where people introduced themselves and explained why they were interested in Elixir. After this we split into pairs to take part in a code kata. The code kata involved <a href=http://rosalind.info/problems/dna/ >counting the DNA Nucleotides of a given string</a>.<p>After an hour when everyone had finished with the kata three of the attendees, myself included, who had prior experience in Elixir presented their group&rsquo;s solutions. All three solutions were similar. They were based on recursion and used pattern matching, which is common in Elixir.<p>It was apparent that all three were inefficient. The dataset that was being tested was quite small so there was no issue. But had the dataset been large the programs would take quite a while to complete. Due to this I decided to investigate how long it would take to parse a large DNA set and what would be the most efficient way to do so.<p>An attendee at the event had mentioned parsing some Panda DNA. So naturally I then went to <a href=https://www.ncbi.nlm.nih.gov/ >https://www.ncbi.nlm.nih.gov/</a> and downloaded some Panda DNA. The largest dataset I could find was around 32,000 lines of text at 2.1MB. It&rsquo;s worth noting that this is only an extract of Panda DNA as I was not able to find a <em>complete</em> set.<h2 id=first-attempt---recursion-and-pattern-matching>First Attempt - Recursion and Pattern Matching</h2><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elixir data-lang=elixir><span style=color:#75715e># takes more than 10 minutes to complete</span>
-defmodule <span style=color:#a6e22e>PandaDna</span> do
-  <span style=color:#a6e22e>@nucleotides</span> %{<span style=color:#e6db74>:A</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>, <span style=color:#e6db74>:C</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>, <span style=color:#e6db74>:G</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>, <span style=color:#e6db74>:T</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>}
+<!DOCTYPE html>
+<html lang="en">
 
-  def sort_nucleotides(<span style=color:#e6db74>&#34;&#34;</span>), <span style=color:#e6db74>do</span>: <span style=color:#a6e22e>@nucleotides</span>
+<head>
+  <meta charset="utf-8">
+<meta name="theme-color" content="#000">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="description" content="Software engineering blog. Articles on Javascript and Web Platform by Brian Douglas.">
+
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
+
+<link rel="canonical" href="https://briandgls.github.io/2016/parsing-a-panda-with-elixir/">
+
+  <title>BrianDGLS</title>
+
+  
+  <meta name="description" content="&lt;p&gt;I attended the first Edinburgh Elixir meet-up on Monday.
+It was a great social event with around ~20 attendees.
+Most of which were first time Elixir users.&lt;/p&gt;">
+
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://briandgls.github.io/2016/parsing-a-panda-with-elixir/">
+<meta property="og:site_name" content="BrianDGLS">
+<meta property="og:title" content="Parsing a Panda With Elixir - BrianDGLS">
+<meta property="og:description" content="&lt;p&gt;I attended the first Edinburgh Elixir meet-up on Monday.
+It was a great social event with around ~20 attendees.
+Most of which were first time Elixir users.&lt;/p&gt;">
+
+
+  <style>
+    /****************************************************Vars****************************************************//****************************************************Mixins****************************************************//****************************************************Reset****************************************************/html { box-sizing: border-box; font-size: 16px;}*,*:before,*:after { box-sizing: inherit;}body,h1,h2,h3,h4,h5,h6,p,ol,ul { margin: 0; padding: 0; font-weight: normal;}ol,ul { list-style: none;}img { max-width: 100%; height: auto;}/****************************************************Defaults****************************************************/html { font-size: 18px;}html,body { height: 100%;}body { font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; -webkit-font-smoothing: antialiased;}h1,h2,h3,h4,h5,h6 { font-weight: 900;}code,pre,blockquote { font-family: "Lucida Console", Monaco, monospace !important;}/****************************************************Layout****************************************************/.hc-layout { display: flex; flex-wrap: wrap; justify-content: flex-start;}.hc-layout .hc-aside,.hc-layout .hc-content,.hc-layout .hc-footer { width: 100%;}@media (min-width: 990px) { .hc-layout .hc-aside { order: 1; width: 15rem; } .hc-layout .hc-content { order: 2; width: 38rem; min-height: calc(100vh - 147px); } .hc-layout .hc-footer { order: 3; width: 100%; }}.hc-layout--page .hc-aside { order: 2;}.hc-layout--page .hc-content { order: 1;}.hc-layout--page .hc-footer { order: 3;}@media (max-width: 989px) { .hc-layout--page .hc-content + .hc-footer { margin-top: 0; }}@media (min-width: 990px) { .hc-layout--page .hc-aside { order: 1; width: 15rem; } .hc-layout--page .hc-content { order: 2; width: 38rem; } .hc-layout--page .hc-footer { order: 3; width: 100%; }}/****************************************************Aside****************************************************/@media (min-width: 990px) { .hc-aside__fixed { top: 0; position: fixed; width: 15rem; }}/****************************************************Top Line****************************************************/.hc-top-line { border-top: 8px solid #000; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;}/****************************************************Header****************************************************/.hc-header { padding: 1.5rem 1rem; background: #222; color: #fff;}.hc-header a { color: #fff; text-decoration: none;}.hc-header__brand { font-family: "Arial Black", Gadget, sans-serif; text-transform: uppercase; font-size: 1rem;}@media (min-width: 990px) { .hc-header__brand { font-size: 1.2rem; }}/****************************************************Pagination****************************************************/.hc-pagination { padding: 1.5rem 1rem;}.hc-pagination a { color: #fff; text-decoration: none;}@media (min-width: 990px) { .hc-pagination { max-width: 100%; width: 38rem; }}.hc-pagination__prev, .hc-pagination__next { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}.hc-pagination__prev { float: left;}.hc-pagination__next { float: right;}/****************************************************Footer****************************************************/.hc-footer { padding: 1.5rem 1rem; background: #222; color: #fff; margin-top: 1.2rem;}.hc-footer a { color: #fff; text-decoration: none;}.hc-footer__brand { max-width: 100%; width: 38rem; margin-top: 1.2rem;}.hc-footer__brand-link { font-weight: 900;}.hc-footer__nav { max-width: 100%; width: 38rem;}.hc-footer__nav-link { font-weight: 900; padding-right: 1rem;}/****************************************************Article****************************************************/.hc-article { padding: 1.5rem 1rem;}@media (max-width: 990px) { .hc-article--summary { max-width: 100%; width: 38rem; }}.hc-article-header a { color: #222; text-decoration: none;}.hc-article-header__title { font-size: 1.8rem;}.hc-article-header__date { color: #666 !important; font-size: 0.8rem; font-weight: 900; text-transform: uppercase;}.hc-article-body { margin-top: 1.2rem;}.hc-article-body h2,.hc-article-body h3,.hc-article-body h4,.hc-article-body h5,.hc-article-body h6,.hc-article-body p { margin-top: 1.2rem;}.hc-article-body blockquote { font-style: italic; padding-left: 1rem; border-left: 5px #222 solid;}.hc-article-body img { display: block; margin: 0 auto;}.hc-article-body pre { padding: 1.5rem 1rem; background: #f6f6f6 !important;}.hc-article-body span.token { background: #f6f6f6 !important;}.hc-article-body + .hc-article-footer { margin-top: 1.2rem;}.hc-article-footer a { color: #fff; text-decoration: none;}.hc-article-footer__read-more { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/****************************************************Article List****************************************************/.hc-article-list__item:hover { background: #f6f6f6 !important;}/****************************************************User Card****************************************************/.hc-user-card a { color: #222; text-decoration: none;}@media (max-width: 989px) { .hc-user-card { padding: 1.5rem 1rem; background: #f6f6f6 !important; display: flex; }}@media (max-width: 540px) { .hc-user-card { flex-wrap: wrap; }}.hc-user-card__img { width: 270px; height: 270px; background: #222;}@media (min-width: 990px) { .hc-user-card__img { width: 220px; height: 220px; outline: 5px solid #222; display: block; margin: 4rem auto 0; }}.hc-user-card__details { padding-top: 1rem;}@media (min-width: 990px) { .hc-user-card__details { text-align: center; }}@media (min-width: 541px) { .hc-user-card__details { padding: 1.5rem 1rem; }}.hc-user-card__bio { margin-top: 1.2rem;}.hc-user-card__links-wrap { margin-top: 1.2rem;}.hc-user-card__links-wrap a { color: #fff; text-decoration: none;}.hc-user-card__link { background: #222; color: #fff; font-weight: 900; padding: 0 0.5rem;}/*# sourceMappingURL=themes/BrianDGLS/layouts/partials/main.css.map */
+  </style>
+</head>
+
+<body>
+  <div class="hc-top-line"></div>
+  <div class="hc-layout hc-layout--page">
+    <section class="hc-aside">
+      <div class="hc-aside__fixed">
+        <div class="hc-user-card" id="js-github-user-card">
+  <img class="hc-user-card__img" alt="picture of me, Brian Douglas" data-src="/images/me.jpeg">
+  <div class="hc-user-card__details">
+    <h2 class="hc-user-card__name">Brian Douglas</h2>
+    <h4 class="hc-user-card__github-username">
+      <a href="https://github.com/BrianDGLS">@BrianDGLS</a>
+    </h4>
+    <p class="hc-user-card__bio">An Irish software engineer. Focused on Javascript and the web platform.</p>
+    <div class="hc-user-card__links-wrap">
+      <a class="hc-user-card__link" href="https://github.com/BrianDGLS/">Github</a>
+      <a class="hc-user-card__link" href="https://codepen.io/BrianDGLS/">Codepen</a>
+    </div>
+  </div>
+</div>
+      </div>
+    </section>
+
+    <section class="hc-content">
+      
+<article id="article-933d660f0b0491f29692c658cd53d2dd" class="hc-article">
+  <header class="hc-article-header">
+    <time class="hc-article-header__date" datetime="Wed, Nov 9, 2016">Nov 9, 2016</time>
+    <h1 class="hc-article-header__title">Parsing a Panda With Elixir</h1>
+  </header>
+
+  <div class="hc-article-body"><p>I attended the first Edinburgh Elixir meet-up on Monday.
+It was a great social event with around ~20 attendees.
+Most of which were first time Elixir users.</p>
+<p>We started off with a stand up where people introduced themselves and explained why they were interested in Elixir.
+After this we split into pairs to take part in a code kata.
+The code kata involved <a href="http://rosalind.info/problems/dna/">counting the DNA Nucleotides  of a given string</a>.</p>
+<p>After an hour when everyone had finished with the kata three of the attendees, myself included, who had prior experience in Elixir presented their group&rsquo;s solutions.
+All three solutions were similar.
+They were based on recursion and used pattern matching, which is common in Elixir.</p>
+<p>It was apparent that all three were inefficient.
+The dataset that was being tested was quite small so there was no issue.
+But had the dataset been large the programs would take quite a while to complete.
+Due to this I decided to investigate how long it would take to parse a large DNA set and what would be the most efficient way to do so.</p>
+<p>An attendee at the event had mentioned parsing some Panda DNA.
+So naturally I then went to <a href="https://www.ncbi.nlm.nih.gov/">https://www.ncbi.nlm.nih.gov/</a> and downloaded some Panda DNA.
+The largest dataset I could find was around 32,000 lines of text at 2.1MB.
+It&rsquo;s worth noting that this is only an extract of Panda DNA as I was not able to find a <em>complete</em> set.</p>
+<h2 id="first-attempt---recursion-and-pattern-matching">First Attempt - Recursion and Pattern Matching</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elixir" data-lang="elixir"><span style="color:#75715e"># takes more than 10 minutes to complete</span>
+defmodule <span style="color:#a6e22e">PandaDna</span> do
+  <span style="color:#a6e22e">@nucleotides</span> %{<span style="color:#e6db74">:A</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">:C</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">:G</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">:T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>}
+
+  def sort_nucleotides(<span style="color:#e6db74">&#34;&#34;</span>), <span style="color:#e6db74">do</span>: <span style="color:#a6e22e">@nucleotides</span>
   def sort_nucleotides(dna_string) do
     dna_string
-    <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>String</span><span style=color:#f92672>.</span>graphemes
-    <span style=color:#f92672>|&gt;</span> group_nucleotides
+    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">String</span><span style="color:#f92672">.</span>graphemes
+    <span style="color:#f92672">|&gt;</span> group_nucleotides
   end
 
-  defp group_nucleotides(dna), <span style=color:#e6db74>do</span>: group_nucleotides(dna, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>@nucleotides</span>)
-  defp group_nucleotides(dna, index, acc) when index <span style=color:#f92672>==</span> length(dna), <span style=color:#e6db74>do</span>: acc
+  defp group_nucleotides(dna), <span style="color:#e6db74">do</span>: group_nucleotides(dna, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">@nucleotides</span>)
+  defp group_nucleotides(dna, index, acc) when index <span style="color:#f92672">==</span> length(dna), <span style="color:#e6db74">do</span>: acc
   defp group_nucleotides(dna, index, acc) do
-    current_char <span style=color:#f92672>=</span> dna <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Enum</span><span style=color:#f92672>.</span>at(index) <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>String</span><span style=color:#f92672>.</span>to_atom
-    matching_value <span style=color:#f92672>=</span> acc[current_char]
+    current_char <span style="color:#f92672">=</span> dna <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(index) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">String</span><span style="color:#f92672">.</span>to_atom
+    matching_value <span style="color:#f92672">=</span> acc[current_char]
 
-    if matching_value <span style=color:#f92672>==</span> nil do
-      group_nucleotides(dna, index <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>, acc)
+    if matching_value <span style="color:#f92672">==</span> nil do
+      group_nucleotides(dna, index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, acc)
     else
-      acc <span style=color:#f92672>=</span> %{acc <span style=color:#f92672>|</span> current_char <span style=color:#f92672>=&gt;</span> matching_value <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>}
-      group_nucleotides(dna, index <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>, acc)
+      acc <span style="color:#f92672">=</span> %{acc <span style="color:#f92672">|</span> current_char <span style="color:#f92672">=&gt;</span> matching_value <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>}
+      group_nucleotides(dna, index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, acc)
     end
   end
 end
-</code></pre></div><p>The first attempt at parsing the Panda DNA uses the solution that myself and my kata buddy created whilst at the Elixir meet up. This initial solution involved splitting the data string into a list and recursively iterating that list whilst updating a key value map based on the results.<p>I had a feeling that this solution would take a long time to parse the 2.1MB of Panda DNA so when setting up my tests I added a timeout of 10 minutes. This meant that if the program took longer than ten minutes to complete it would be terminated.<blockquote><p>It&rsquo;s worth noting that I preloaded the dataset before running the tests. So the time it takes to read the file is not included in the test execution timestamp.</blockquote><p>Needless to say it did take longer than ten minutes. To double check that it was definitely working I added some tests using smaller datasets. This confirmed that it did indeed work and that it was just quite slow.<p>So the result of my first solution took longer than 10 minutes. I assume it would eventually complete but I wasn&rsquo;t willing to wait around and find out when.<h2 id=second-attempt---using-an-elixir-stream>Second Attempt - Using an Elixir Stream</h2><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elixir data-lang=elixir><span style=color:#75715e># completes in 2.6 - 2.9 seconds</span>
-defmodule <span style=color:#a6e22e>PandaDna</span> do
-  <span style=color:#a6e22e>@nucleotides</span> %{<span style=color:#e6db74>:A</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>, <span style=color:#e6db74>:C</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>, <span style=color:#e6db74>:G</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>, <span style=color:#e6db74>:T</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>}
+</code></pre></div><p>The first attempt at parsing the Panda DNA uses the solution that myself and my kata buddy created whilst at the Elixir meet up.
+This initial solution involved splitting the data string into a list and recursively iterating that list whilst updating a key value map based on the results.</p>
+<p>I had a feeling that this solution would take a long time to parse the 2.1MB of Panda DNA so when setting up my tests I added a timeout of 10 minutes.
+This meant that if the program took longer than ten minutes to complete it would be terminated.</p>
+<blockquote>
+<p>It&rsquo;s worth noting that I preloaded the dataset before running the tests. So the time it takes to read the file is not included in the test execution timestamp.</p>
+</blockquote>
+<p>Needless to say it did take longer than ten minutes.
+To double check that it was definitely working I added some tests using smaller datasets.
+This confirmed that it did indeed work and that it was just quite slow.</p>
+<p>So the result of my first solution took longer than 10 minutes.
+I assume it would eventually complete but I wasn&rsquo;t willing to wait around and find out when.</p>
+<h2 id="second-attempt---using-an-elixir-stream">Second Attempt - Using an Elixir Stream</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elixir" data-lang="elixir"><span style="color:#75715e"># completes in 2.6 - 2.9 seconds</span>
+defmodule <span style="color:#a6e22e">PandaDna</span> do
+  <span style="color:#a6e22e">@nucleotides</span> %{<span style="color:#e6db74">:A</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">:C</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">:G</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">:T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>}
 
-  def sort_nucleotides(<span style=color:#e6db74>&#34;&#34;</span>), <span style=color:#e6db74>do</span>: <span style=color:#a6e22e>@nucleotides</span>
+  def sort_nucleotides(<span style="color:#e6db74">&#34;&#34;</span>), <span style="color:#e6db74">do</span>: <span style="color:#a6e22e">@nucleotides</span>
   def sort_nucleotides(dataset) do
     dataset
-    <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>String</span><span style=color:#f92672>.</span>graphemes
-    <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Stream</span><span style=color:#f92672>.</span>scan(<span style=color:#a6e22e>@nucleotides</span>, <span style=color:#f92672>&amp;</span>group_nucleotides<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>)
-    <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Enum</span><span style=color:#f92672>.</span>at(<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">String</span><span style="color:#f92672">.</span>graphemes
+    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>scan(<span style="color:#a6e22e">@nucleotides</span>, <span style="color:#f92672">&amp;</span>group_nucleotides<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)
+    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
   end
 
   defp group_nucleotides(dna, acc) do
-    current_char <span style=color:#f92672>=</span> dna <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>String</span><span style=color:#f92672>.</span>to_atom
-    matching_value <span style=color:#f92672>=</span> acc[current_char]
+    current_char <span style="color:#f92672">=</span> dna <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">String</span><span style="color:#f92672">.</span>to_atom
+    matching_value <span style="color:#f92672">=</span> acc[current_char]
 
-    if matching_value <span style=color:#f92672>==</span> nil do
+    if matching_value <span style="color:#f92672">==</span> nil do
       acc
     else
-      %{acc <span style=color:#f92672>|</span> current_char <span style=color:#f92672>=&gt;</span> matching_value <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>}
+      %{acc <span style="color:#f92672">|</span> current_char <span style="color:#f92672">=&gt;</span> matching_value <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>}
     end
   end
 end
-</code></pre></div><p>One of the main issues with the initial solution is that it tries to iterate over the entire dataset. Creating a Stream of the data is a much better solution. Using Streams in Elixir is not difficult. Elixir has a built in Stream module created specifically for this purpose.<p>The <code>sort_nucleotides</code> function was updated to use a Stream instead of recursively iterating the list. The <code>Stream.scan/2</code> function takes an accumulator and a callback function. It passes the accumulator as the second argument to the callback and updates the accumulator based on what is returned. Once the stream has reached the end of the dataset, it then returns a list of the returned accumulators. We only need the final one, piping in <code>Enum.at(-1)</code> will return the last item in the list.<p>Amazingly using this approach the program now runs in less than 3 seconds, with tests completing in between 2.6 and 2.9 seconds. This is a phenomenal speed increase. However it is possible for Elixir to split the load over multiple processes. With this in mind let&rsquo;s take a look at my final and fastest attempt.<h2 id=final-attempt---using-flow>Final Attempt - Using Flow</h2><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elixir data-lang=elixir><span style=color:#75715e># completes in 0.4 seconds</span>
-defmodule <span style=color:#a6e22e>PandaDna</span> do
-  alias <span style=color:#a6e22e>Experimental.Flow</span>
+</code></pre></div><p>One of the main issues with the initial solution is that it tries to iterate over the entire dataset.
+Creating a Stream of the data is a much better solution.
+Using Streams in Elixir is not difficult.
+Elixir has a built in Stream module created specifically for this purpose.</p>
+<p>The <code>sort_nucleotides</code> function was updated to use a Stream instead of recursively iterating the list.
+The <code>Stream.scan/2</code> function takes an accumulator and a callback function.
+It passes the accumulator as the second argument to the callback and updates the accumulator based on what is returned.
+Once the stream has reached the end of the dataset, it then returns a list of the returned accumulators.
+We only need the final one, piping in <code>Enum.at(-1)</code> will return the last item in the list.</p>
+<p>Amazingly using this approach the program now runs in less than 3 seconds, with tests completing in between 2.6 and 2.9 seconds.
+This is a phenomenal speed increase.
+However it is possible for Elixir to split the load over multiple processes.
+With this in mind let&rsquo;s take a look at my final and fastest attempt.</p>
+<h2 id="final-attempt---using-flow">Final Attempt - Using Flow</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elixir" data-lang="elixir"><span style="color:#75715e"># completes in 0.4 seconds</span>
+defmodule <span style="color:#a6e22e">PandaDna</span> do
+  alias <span style="color:#a6e22e">Experimental.Flow</span>
 
-  <span style=color:#a6e22e>@nucleotides</span> %{<span style=color:#e6db74>?A</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>, <span style=color:#e6db74>?C</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>, <span style=color:#e6db74>?G</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>, <span style=color:#e6db74>?T</span> <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>0</span>}
+  <span style="color:#a6e22e">@nucleotides</span> %{<span style="color:#e6db74">?A</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">?C</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">?G</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">?T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>}
 
-  def sort_nucleotides(<span style=color:#e6db74>&#34;&#34;</span>), <span style=color:#e6db74>do</span>: <span style=color:#a6e22e>@nucleotides</span>
+  def sort_nucleotides(<span style="color:#e6db74">&#34;&#34;</span>), <span style="color:#e6db74">do</span>: <span style="color:#a6e22e">@nucleotides</span>
   def sort_nucleotides(dataset) do
     dataset
-    <span style=color:#f92672>|&gt;</span> <span style=color:#e6db74>:erlang</span><span style=color:#f92672>.</span>binary_to_list
-    <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Flow</span><span style=color:#f92672>.</span>from_enumerable
-    <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Flow</span><span style=color:#f92672>.</span>reduce(fn <span style=color:#f92672>-&gt;</span> <span style=color:#a6e22e>@nucleotides</span> end, <span style=color:#f92672>&amp;</span>group_nucleotides<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>)
-    <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Enum</span><span style=color:#f92672>.</span>to_list
-    <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Stream</span><span style=color:#f92672>.</span>scan(<span style=color:#a6e22e>@nucleotides</span>, <span style=color:#f92672>&amp;</span>format_groupings<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>)
-    <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Enum</span><span style=color:#f92672>.</span>at(<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+    <span style="color:#f92672">|&gt;</span> <span style="color:#e6db74">:erlang</span><span style="color:#f92672">.</span>binary_to_list
+    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Flow</span><span style="color:#f92672">.</span>from_enumerable
+    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Flow</span><span style="color:#f92672">.</span>reduce(fn <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">@nucleotides</span> end, <span style="color:#f92672">&amp;</span>group_nucleotides<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)
+    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>to_list
+    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>scan(<span style="color:#a6e22e">@nucleotides</span>, <span style="color:#f92672">&amp;</span>format_groupings<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)
+    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
   end
 
   defp format_groupings(dna, acc) do
-    dna <span style=color:#f92672>=</span> dna
-    <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Tuple</span><span style=color:#f92672>.</span>to_list
+    dna <span style="color:#f92672">=</span> dna
+    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Tuple</span><span style="color:#f92672">.</span>to_list
 
-    key <span style=color:#f92672>=</span> dna <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Enum</span><span style=color:#f92672>.</span>at(<span style=color:#ae81ff>0</span>)
-    value <span style=color:#f92672>=</span> dna <span style=color:#f92672>|&gt;</span> <span style=color:#a6e22e>Enum</span><span style=color:#f92672>.</span>at(<span style=color:#ae81ff>1</span>)
+    key <span style="color:#f92672">=</span> dna <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(<span style="color:#ae81ff">0</span>)
+    value <span style="color:#f92672">=</span> dna <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(<span style="color:#ae81ff">1</span>)
 
-    %{acc <span style=color:#f92672>|</span> key <span style=color:#f92672>=&gt;</span> acc[key] <span style=color:#f92672>+</span> value}
+    %{acc <span style="color:#f92672">|</span> key <span style="color:#f92672">=&gt;</span> acc[key] <span style="color:#f92672">+</span> value}
   end
 
   defp group_nucleotides(dna, acc) do
-    matching_value <span style=color:#f92672>=</span> acc[dna]
+    matching_value <span style="color:#f92672">=</span> acc[dna]
 
-    if matching_value <span style=color:#f92672>==</span> nil do
+    if matching_value <span style="color:#f92672">==</span> nil do
       acc
     else
-      %{acc <span style=color:#f92672>|</span> dna <span style=color:#f92672>=&gt;</span> matching_value <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>}
+      %{acc <span style="color:#f92672">|</span> dna <span style="color:#f92672">=&gt;</span> matching_value <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>}
     end
   end
 end
-</code></pre></div><p>I knew that Elixir was particularly good at splitting processes and handling concurrent events, I didn&rsquo;t have much knowledge of this however. So I went to the <a href=https://elixir-lang.slack.com>elixir-lang slack channel</a> to seek some advice. The guys there were incredibly helpful and suggested I use <a href=https://hexdocs.pm/gen_stage/Experimental.Flow.html>Flow</a>.<p>The description on <a href=http://elixir-lang.org>elixir-lang.org</a> best sums up what Flow is.<blockquote><p>Flow: allows us to express our computations similarly to streams, except they will run across multiple stages instead of a single process.</blockquote><p>After a quick look at the docs and some guidance from the guys on the elixir slack channel I had a DNA parser that used Flow. It&rsquo;s also worth mentioning that as well as adding Flow some other changes were made to the final solution. Replacing <code>String.graphemes</code> with <code>:erlang.binary_to_list</code> doubled the execution speed. In order to use this I updated the <code>@nucleotides</code> map to use char codes instead of atoms.<p>I was also forced to add a new function <code>format_groupings</code> which took the results from Flow and formatted them to give the expected result.<p>With these changes in place I ran the tests and astoundingly the program completed, with the correct result, in as fast as 0.4 seconds.<h2 id=summary>Summary</h2><p>For me the speed increase from the first to the last solution was unimaginable. Going from a program that takes over ten minutes to a program that takes 0.4 seconds to parse a 2.1MB is a big achievement.<p>This also shows that it is important to utilise the functionality that a language offers. I could have stopped after the first attempt but instead I pursued a better solution. The journey to the final program has greatly increased my appreciation and knowledge of Elixir. The syntax and conciseness of the language is just as impressive as it&rsquo;s performance. The program contains only 36 lines of code and is highly readable.<p>I look forward to using Elixir again. I also encourage you to pursue better, more performant code.<p><em>You can find all code and tests on github at the link below</em><p><a href=https://github.com/BrianDGLS/elixir-dna-parser>https://github.com/BrianDGLS/elixir-dna-parser</a></div></article><footer class=hc-footer><nav class=hc-footer__nav><a href=https://briandgls.github.io//about class=hc-footer__nav-link>About Me</a> <a href=https://github.com/BrianDGLS class=hc-footer__nav-link>Github</a> <a href=https://codepen.io/BrianDGLS/ class=hc-footer__nav-link>Codepen</a></nav><p class=hc-footer__brand><span class=hc-footer__year></span> / <a href=https://briandgls.github.io/ class=hc-footer__brand-link>BrianDGLS</a></p><script>const $year = document.querySelector('.hc-footer__year')
-        $year.textContent = new Date().getFullYear()</script></footer></section></div><a href=# title="back to top" rel=nofollow tabindex=0></a><link rel=stylesheet href=/prism/prism.css async defer><script src=/prism/prism.js async defer></script><script>if ('serviceWorker' in navigator) {
+</code></pre></div><p>I knew that Elixir was particularly good at splitting processes and handling concurrent events, I didn&rsquo;t have much knowledge of this however.
+So I went to the <a href="https://elixir-lang.slack.com">elixir-lang slack channel</a> to seek some advice.
+The guys there were incredibly helpful and suggested I use <a href="https://hexdocs.pm/gen_stage/Experimental.Flow.html">Flow</a>.</p>
+<p>The description on <a href="http://elixir-lang.org">elixir-lang.org</a> best sums up what Flow is.</p>
+<blockquote>
+<p>Flow: allows us to express our computations similarly to streams, except they will run across multiple stages instead of a single process.</p>
+</blockquote>
+<p>After a quick look at the docs and some guidance from the guys on the elixir slack channel I had a DNA parser that used Flow.
+It&rsquo;s also worth mentioning that as well as adding Flow some other changes were made to the final solution.
+Replacing <code>String.graphemes</code> with <code>:erlang.binary_to_list</code> doubled the execution speed.
+In order to use this I updated the <code>@nucleotides</code> map to use char codes instead of atoms.</p>
+<p>I was also forced to add a new function <code>format_groupings</code> which took the results from Flow and formatted them to give the expected result.</p>
+<p>With these changes in place I ran the tests and astoundingly the program completed, with the correct result, in as fast as 0.4 seconds.</p>
+<h2 id="summary">Summary</h2>
+<p>For me the speed increase from the first to the last solution was unimaginable.
+Going from a program that takes over ten minutes to a program that takes 0.4 seconds to parse a 2.1MB is a big achievement.</p>
+<p>This also shows that it is important to utilise the functionality that a language offers.
+I could have stopped after the first attempt but instead I pursued a better solution.
+The journey to the final program has greatly increased my appreciation and knowledge of Elixir.
+The syntax and conciseness of the language is just as impressive as it&rsquo;s performance.
+The program contains only 36 lines of code and is highly readable.</p>
+<p>I look forward to using Elixir again.
+I also encourage you to pursue better, more performant code.</p>
+<p><em>You can find all code and tests on github at the link below</em></p>
+<p><a href="https://github.com/BrianDGLS/elixir-dna-parser">https://github.com/BrianDGLS/elixir-dna-parser</a></p></div>
+</article>
+
+      <footer class="hc-footer">
+    <nav class="hc-footer__nav">
+        <a href="https://briandgls.github.io//about" class="hc-footer__nav-link">About Me</a>
+        <a href="https://github.com/BrianDGLS" class="hc-footer__nav-link">Github</a>
+        <a href="https://codepen.io/BrianDGLS/" class="hc-footer__nav-link">Codepen</a>
+    </nav>
+    <p class="hc-footer__brand">
+        <span class="hc-footer__year"></span> /
+        <a href="https://briandgls.github.io/" class="hc-footer__brand-link">BrianDGLS</a>
+    </p>
+    <script>
+        const $year = document.querySelector('.hc-footer__year')
+        $year.textContent = new Date().getFullYear()
+    </script>
+</footer>
+    </section>
+  </div>
+
+  <a href="#" title="back to top" rel="nofollow" tabindex="0"></a>
+
+  
+  <link rel="stylesheet" href="/prism/prism.css" async defer>
+  <script src="/prism/prism.js" async defer></script> 
+  
+
+  <script>
+    if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
       }, {once: true});
@@ -102,4 +264,8 @@ end
           img.onload = () => img.removeAttribute('data-src');
         }
       }
-    }, {once: true});</script>
+    }, {once: true});
+  </script>
+</body>
+
+</html>
